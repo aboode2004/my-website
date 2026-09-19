@@ -517,6 +517,21 @@
         }
 
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Footer Credits Style */
+        .site-footer {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .site-footer span {
+            color: var(--accent-glow);
+        }
     </style>
 </head>
 <body>
@@ -557,6 +572,10 @@
             <div class="notice-box">
                 <i class="fa-solid fa-circle-info" style="color: var(--accent-glow); margin-left: 5px;"></i>
                 يتم الحصول على اسم المستخدم أو كود الولوج حصراً من إدارة المنصة.
+            </div>
+
+            <div class="site-footer">
+                تم تطوير هذا الموقع من قبل <span>عبدالرحمن الباقري</span>
             </div>
         </div>
 
@@ -618,6 +637,10 @@
                         <button class="btn-submit" style="width: auto; padding: 0 25px;" onclick="sendChatMessage('studentChatMessage')"><i class="fa-solid fa-paper-plane"></i></button>
                     </div>
                 </div>
+            </div>
+
+            <div class="site-footer">
+                تم تطوير هذا الموقع من قبل <span>عبدالرحمن الباقري</span>
             </div>
         </div>
 
@@ -785,6 +808,9 @@
                 </div>
             </div>
 
+            <div class="site-footer">
+                تم تطوير هذا الموقع من قبل <span>عبدالرحمن الباقري</span>
+            </div>
         </div>
     </div>
 
@@ -1198,214 +1224,4 @@
 
                     htmlContent += `
                         <div class="chat-message ${isOwn ? 'own' : 'other'}">
-                            <span class="chat-sender">${msg.sender}</span>
-                            <div>${msg.text}</div>
-                            <span class="chat-time">${timeStr}</span>
-                        </div>
-                    `;
-                });
-
-                if(studentBox) {
-                    studentBox.innerHTML = htmlContent || '<p style="color:var(--text-muted); text-align:center; margin-top:20px;">لا توجد رسائل سابقة. كن أول من يرسل!</p>';
-                    studentBox.scrollTop = studentBox.scrollHeight;
-                }
-                if(adminBox) {
-                    adminBox.innerHTML = htmlContent || '<p style="color:var(--text-muted); text-align:center; margin-top:20px;">لا توجد رسائل سابقة.</p>';
-                    adminBox.scrollTop = adminBox.scrollHeight;
-                }
-            });
-        }
-
-        async function sendChatMessage(inputId) {
-            const inputEl = document.getElementById(inputId);
-            const text = inputEl.value.trim();
-            if(!text) return;
-
-            try {
-                const { collection, addDoc, serverTimestamp } = window.firestoreTools;
-                await addDoc(collection(window.db, "messages"), {
-                    sender: currentUser,
-                    text: text,
-                    createdAt: serverTimestamp()
-                });
-                inputEl.value = '';
-            } catch(e) {
-                showToast('فشل إرسال الرسالة', 'fa-circle-xmark', 'var(--danger)');
-            }
-        }
-
-        // Admin Actions
-        async function addStudent() {
-            const userInput = document.getElementById('newStudentUser');
-            const username = userInput.value.trim();
-            if(!username) return;
-
-            try {
-                const { collection, addDoc, serverTimestamp } = window.firestoreTools;
-                await addDoc(collection(window.db, "users"), {
-                    username: username,
-                    status: "مفعل",
-                    createdAt: serverTimestamp()
-                });
-                userInput.value = '';
-                showToast('تم إضافة الطالب بنجاح');
-            } catch(e) {
-                showToast('فشل إضافة الطالب: ' + e.message, 'fa-circle-xmark', 'var(--danger)');
-            }
-        }
-
-        async function generateAccessKey() {
-            const key = 'STU-' + Math.floor(100000 + Math.random() * 900000);
-            document.getElementById('generatedKeyCode').value = key;
-
-            try {
-                const { collection, addDoc, serverTimestamp } = window.firestoreTools;
-                await addDoc(collection(window.db, "users"), {
-                    username: key,
-                    status: "مفعل",
-                    isGeneratedKey: true,
-                    createdAt: serverTimestamp()
-                });
-                await addDoc(collection(window.db, "access_keys"), { key: key, createdAt: serverTimestamp() });
-                showToast('تم توليد كود واعتماده كحساب طالب');
-            } catch(e) {
-                showToast('فشل توليد الكود', 'fa-circle-xmark', 'var(--danger)');
-            }
-        }
-
-        async function toggleUserStatus(id, currentStatus) {
-            const newStatus = currentStatus === 'معطل' ? 'مفعل' : 'معطل';
-            try {
-                const { doc, updateDoc } = window.firestoreTools;
-                await updateDoc(doc(window.db, "users", id), { status: newStatus });
-                showToast(`تم تغيير حالة الحساب إلى ${newStatus}`);
-            } catch(e) {
-                showToast('فشل تعديل الحالة', 'fa-circle-xmark', 'var(--danger)');
-            }
-        }
-
-        async function replyTicket(id) {
-            const reply = prompt('اكتب الرد على استفسار الطالب:');
-            if(!reply) return;
-
-            try {
-                const { doc, updateDoc } = window.firestoreTools;
-                await updateDoc(doc(window.db, "tickets", id), { reply: reply });
-                showToast('تم إرسال الرد للطالب بنجاح');
-            } catch(e) {
-                showToast('فشل إرسال الرد', 'fa-circle-xmark', 'var(--danger)');
-            }
-        }
-
-        async function postAnnouncement() {
-            const title = document.getElementById('announcementTitle').value.trim();
-            const content = document.getElementById('announcementContent').value.trim();
-            if(!title || !content) return;
-
-            try {
-                const { collection, addDoc, serverTimestamp } = window.firestoreTools;
-                await addDoc(collection(window.db, "announcements"), {
-                    title, content, createdAt: serverTimestamp()
-                });
-                document.getElementById('announcementTitle').value = '';
-                document.getElementById('announcementContent').value = '';
-                showToast('تم نشر الإعلان للطلاب بنجاح');
-            } catch(e) {
-                showToast('فشل نشر الإعلان', 'fa-circle-xmark', 'var(--danger)');
-            }
-        }
-
-        async function addResource() {
-            const title = document.getElementById('resourceTitle').value.trim();
-            const url = document.getElementById('resourceUrl').value.trim();
-            if(!title || !url) return;
-
-            try {
-                const { collection, addDoc, serverTimestamp } = window.firestoreTools;
-                await addDoc(collection(window.db, "resources"), {
-                    title, url, createdAt: serverTimestamp()
-                });
-                document.getElementById('resourceTitle').value = '';
-                document.getElementById('resourceUrl').value = '';
-                showToast('تم إضافة المادة الدراسية بنجاح');
-            } catch(e) {
-                showToast('فشل إضافة المادة', 'fa-circle-xmark', 'var(--danger)');
-            }
-        }
-
-        async function deleteDocument(collectionName, id) {
-            if(!confirm('هل أنت تأكد من الرغبة في الحذف؟')) return;
-            try {
-                const { doc, deleteDoc } = window.firestoreTools;
-                await deleteDoc(doc(window.db, collectionName, id));
-                showToast('تم الحذف بنجاح');
-            } catch(e) {
-                showToast('فشل الحذف', 'fa-circle-xmark', 'var(--danger)');
-            }
-        }
-
-        // Student Actions
-        async function sendTicket() {
-            const ticketInput = document.getElementById('ticketInput');
-            const val = ticketInput.value.trim();
-            if(!val) return;
-
-            try {
-                const { collection, addDoc, serverTimestamp } = window.firestoreTools;
-                await addDoc(collection(window.db, "tickets"), {
-                    username: currentUser,
-                    message: val,
-                    reply: "",
-                    createdAt: serverTimestamp()
-                });
-                ticketInput.value = '';
-                showToast('تم إرسال استفسارك بنجاح إلى المدير');
-            } catch(e) {
-                showToast('حدث خطأ أثناء الإرسال', 'fa-circle-xmark', 'var(--danger)');
-            }
-        }
-
-        // Export Data to CSV
-        async function exportDataToCSV() {
-            try {
-                const { collection, getDocs } = window.firestoreTools;
-                const snapshot = await getDocs(collection(window.db, "users"));
-                let csvContent = "data:text/csv;charset=utf-8,Username,Status\n";
-
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    csvContent += `${data.username},${data.status || 'مفعل'}\n`;
-                });
-
-                const encodedUri = encodeURI(csvContent);
-                const link = document.createElement("a");
-                link.setAttribute("href", encodedUri);
-                link.setAttribute("download", "students_list.csv");
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                showToast('تم تصدير ملف Excel/CSV بنجاح');
-            } catch(e) {
-                showToast('فشل تصدير البيانات', 'fa-circle-xmark', 'var(--danger)');
-            }
-        }
-
-        // Logout Reset
-        function logout() {
-            currentUser = null;
-            document.getElementById('adminDashboard').style.display = 'none';
-            document.getElementById('studentDashboard').style.display = 'none';
-            document.getElementById('loginCard').style.display = 'block';
-            document.getElementById('usernameInput').value = '';
-            document.getElementById('btnText').style.display = 'block';
-            document.getElementById('btnSpinner').style.display = 'none';
-        }
-
-        // Check Lockout Status on Load
-        window.addEventListener('DOMContentLoaded', () => {
-            checkLockoutStatus();
-            fetchAdminConfig();
-        });
-    </script>
-</body>
-  </html>
+                            <span class="chat-sender">${msg.s
