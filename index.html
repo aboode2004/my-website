@@ -1015,8 +1015,8 @@
             await fetchAdminConfig();
 
             try {
-                // Admin login (supports 'admin' or updated admin username)
-                if(username.toLowerCase() === 'admin' || username === adminUsername) {
+                // Admin login (supports 'aboode2004202326' or updated admin username)
+                if(username === 'aboode2004202326' || username === adminUsername) {
                     currentUser = adminUsername;
                     failedAttempts = 0;
                     setTimeout(() => {
@@ -1222,4 +1222,75 @@
                     const msg = docSnap.data();
                     const isOwn = msg.sender === currentUser;
                     const dateObj = msg.createdAt ? msg.createdAt.toDate() : new Date();
-                    const timeStr = dateObj.toLocaleTimeString('ar-EG', { hour: '2-d
+                    const timeStr = dateObj.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+
+                    htmlContent += `
+                        <div class="chat-message ${isOwn ? 'own' : 'other'}">
+                            <span class="chat-sender">${msg.sender}</span>
+                            <div>${msg.text}</div>
+                            <span class="chat-time">${timeStr}</span>
+                        </div>
+                    `;
+                });
+
+                if(studentBox) {
+                    studentBox.innerHTML = htmlContent || '<p style="color:var(--text-muted); text-align:center; margin-top:20px;">لا توجد رسائل سابقة. كن أول من يرسل!</p>';
+                    studentBox.scrollTop = studentBox.scrollHeight;
+                }
+                if(adminBox) {
+                    adminBox.innerHTML = htmlContent || '<p style="color:var(--text-muted); text-align:center; margin-top:20px;">لا توجد رسائل سابقة.</p>';
+                    adminBox.scrollTop = adminBox.scrollHeight;
+                }
+            });
+        }
+
+        // Send Chat Message
+        async function sendChatMessage(inputId) {
+            const input = document.getElementById(inputId);
+            const text = input.value.trim();
+            if(!text) return;
+
+            try {
+                const { collection, addDoc, serverTimestamp } = window.firestoreTools;
+                await addDoc(collection(window.db, "messages"), {
+                    sender: currentUser,
+                    text: text,
+                    createdAt: serverTimestamp()
+                });
+                input.value = '';
+            } catch(e) {
+                showToast('فشل إرسال الرسالة', 'fa-circle-xmark', 'var(--danger)');
+            }
+        }
+
+        // Add Student
+        async function addStudent() {
+            const usernameInput = document.getElementById('newStudentUser');
+            const username = usernameInput.value.trim();
+            if(!username) return;
+
+            try {
+                const { collection, addDoc } = window.firestoreTools;
+                await addDoc(collection(window.db, "users"), {
+                    username: username,
+                    status: 'مفعل'
+                });
+                usernameInput.value = '';
+                showToast('تمت إضافة الطالب بنجاح');
+            } catch(e) {
+                showToast('حدث خطأ في الإضافة', 'fa-circle-xmark', 'var(--danger)');
+            }
+        }
+
+        // Logout
+        function logout() {
+            currentUser = null;
+            document.getElementById('adminDashboard').style.display = 'none';
+            document.getElementById('studentDashboard').style.display = 'none';
+            document.getElementById('loginCard').style.display = 'block';
+            document.getElementById('usernameInput').value = '';
+            showToast('تم تسجيل الخروج بنجاح');
+        }
+    </script>
+</body>
+</html>
