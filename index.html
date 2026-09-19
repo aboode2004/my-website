@@ -3,1294 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة مساعدة الطلاب | النظام المتكامل</title>
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Three.js for 3D Background -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <title>مرحباً بك في موقع كوفي</title>
+    <!-- استيراد خط عربي أنيق من جوجل -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-dark: #05070f;
-            --card-bg: rgba(13, 18, 36, 0.75);
-            --card-border: rgba(255, 255, 255, 0.08);
-            --primary: #4f46e5;
-            --primary-glow: #6366f1;
-            --accent: #06b6d4;
-            --accent-glow: #22d3ee;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --danger: #ef4444;
-            --success: #10b981;
-            --warning: #f59e0b;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Cairo', 'Tajawal', sans-serif;
-            user-select: none;
+            font-family: 'Cairo', sans-serif;
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            min-height: 100vh;
-            overflow-x: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            padding: 20px 0;
-        }
-
-        #canvas-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .main-container {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 1150px;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .glass-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid var(--card-border);
-            border-radius: 28px;
-            padding: 40px;
-            width: 100%;
-            max-width: 460px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5),
-                        0 0 40px rgba(79, 70, 229, 0.15);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s ease;
-        }
-
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
-            animation: scanline 4s linear infinite;
-        }
-
-        @keyframes scanline {
-            0% { left: -100%; }
-            50%, 100% { left: 100%; }
-        }
-
-        .brand-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .logo-icon {
-            width: 70px;
-            height: 70px;
-            margin: 0 auto 15px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            border-radius: 22px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
+            /* خلفية تدمج لون القهوة مع صورة تعبيرية وتعتيم خفيف */
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+            background-size: cover;
             color: #fff;
-            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.4);
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-        }
-
-        .brand-header h1 {
-            font-size: 25px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #fff 30%, var(--text-muted));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .brand-header p {
-            color: var(--text-muted);
-            font-size: 13px;
-            margin-top: 6px;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-            margin-right: 4px;
-        }
-
-        .input-wrapper {
-            position: relative;
+            height: 100vh;
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        .input-wrapper i {
-            position: absolute;
-            right: 18px;
-            color: var(--text-muted);
-            font-size: 18px;
-            transition: color 0.3s ease;
-        }
-
-        .input-field {
-            width: 100%;
-            padding: 14px 50px 14px 18px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            color: #fff;
-            font-size: 14px;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .input-field:focus {
-            background: rgba(255, 255, 255, 0.06);
-            border-color: var(--primary-glow);
-            box-shadow: 0 0 20px rgba(99, 102, 241, 0.25);
-        }
-
-        .input-field:focus + i {
-            color: var(--accent-glow);
-        }
-
-        .btn-submit {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 16px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: #fff;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.35);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .btn-submit:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(79, 70, 229, 0.5);
-            filter: brightness(1.1);
-        }
-
-        .btn-submit:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            filter: grayscale(1);
-        }
-
-        .notice-box {
-            margin-top: 25px;
-            padding: 14px 18px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px dashed rgba(255, 255, 255, 0.1);
-            border-radius: 14px;
-            text-align: center;
-            font-size: 12px;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        .lockout-warning {
-            color: var(--danger);
-            font-size: 13px;
-            text-align: center;
-            margin-top: 10px;
-            font-weight: 700;
-            display: none;
-        }
-
-        /* Toast Notifications */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: rgba(15, 23, 42, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(15px);
-            padding: 14px 28px;
-            border-radius: 50px;
-            color: #fff;
-            font-size: 14px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            z-index: 1000;
-        }
-
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-
-        /* Dashboards Base Layout */
-        .app-view {
-            display: none;
-            width: 100%;
-            max-width: 1150px;
-            background: var(--card-bg);
-            backdrop-filter: blur(25px);
-            border: 1px solid var(--card-border);
-            border-radius: 28px;
-            padding: 30px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
-        }
-
-        .app-header {
+        header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-            gap: 15px;
+            padding: 20px 50px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(5px);
         }
 
-        .btn-logout {
-            padding: 10px 20px;
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            color: var(--danger);
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .btn-logout:hover {
-            background: var(--danger);
-            color: #fff;
-        }
-
-        /* Stats Bar */
-        .stats-bar {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .stat-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 18px;
-            padding: 18px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .stat-icon {
-            width: 45px;
-            height: 45px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-
-        .stat-info h4 {
-            font-size: 12px;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .stat-info span {
-            font-size: 20px;
-            font-weight: 800;
-            color: #fff;
-        }
-
-        /* Tabs Navigation */
-        .admin-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            padding-bottom: 10px;
-            overflow-x: auto;
-        }
-
-        .tab-btn {
-            padding: 10px 18px;
-            background: transparent;
-            border: 1px solid transparent;
-            color: var(--text-muted);
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            white-space: nowrap;
-            transition: all 0.3s ease;
-        }
-
-        .tab-btn.active {
-            background: rgba(99, 102, 241, 0.15);
-            border-color: rgba(99, 102, 241, 0.3);
-            color: var(--accent-glow);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .grid-layout {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .card-item {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 20px;
-        }
-
-        /* Group Chat Styles */
-        .chat-box {
-            height: 380px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            margin-bottom: 15px;
-        }
-
-        .chat-message {
-            max-width: 80%;
-            padding: 12px 16px;
-            border-radius: 16px;
-            font-size: 13px;
-            line-height: 1.5;
-            position: relative;
-        }
-
-        .chat-message.own {
-            align-self: flex-start;
-            background: linear-gradient(135deg, var(--primary), #4338ca);
-            color: #fff;
-            border-bottom-right-radius: 4px;
-        }
-
-        .chat-message.other {
-            align-self: flex-end;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            color: var(--text-main);
-            border-bottom-left-radius: 4px;
-        }
-
-        .chat-sender {
-            font-size: 11px;
+        .logo {
+            font-size: 24px;
             font-weight: 700;
-            color: var(--accent-glow);
-            margin-bottom: 4px;
-            display: block;
+            color: #d4a373;
         }
 
-        .chat-time {
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.5);
-            margin-top: 5px;
-            text-align: left;
-            display: block;
-        }
-
-        /* Tables & Lists */
-        .table-responsive {
-            width: 100%;
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            min-width: 600px;
-        }
-
-        th, td {
-            padding: 12px 15px;
-            text-align: right;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 13px;
-        }
-
-        th { color: var(--text-muted); font-weight: 600; }
-
-        .tag {
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            display: inline-block;
-        }
-
-        .tag-active { background: rgba(16, 185, 129, 0.15); color: var(--success); }
-        .tag-pending { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
-        .tag-danger { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
-
-        .action-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: none;
+        nav a {
             color: #fff;
-            padding: 6px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: all 0.3s ease;
-            margin-left: 5px;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 16px;
+            transition: color 0.3s;
         }
 
-        .action-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
+        nav a:hover {
+            color: #d4a373;
         }
 
-        .action-btn.delete { color: var(--danger); }
-        .action-btn.delete:hover { background: rgba(239, 68, 68, 0.2); }
-
-        .spinner {
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 0.8s linear infinite;
-            display: none;
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* Footer Credits Style */
-        .site-footer {
+        .hero {
             text-align: center;
-            margin-top: 25px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            font-size: 13px;
-            color: var(--text-muted);
-            font-weight: 600;
+            padding: 0 20px;
+            max-width: 800px;
+            margin: auto;
         }
 
-        .site-footer span {
-            color: var(--accent-glow);
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #fefae0;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: #d4d4d4;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #bc6c25;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #dda15e;
+            transform: translateY(-3px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            font-size: 14px;
+            color: #aaa;
+        }
+
+        /* تصميم متجاوب للشاشات الصغيرة */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 10px;
+            }
+            .hero h1 {
+                font-size: 36px;
+            }
+            .hero p {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div id="canvas-container"></div>
+    <!-- رأس الصفحة (الشاوة والقوائم) -->
+    <header>
+        <div class="logo">☕ كوفي شوب</div>
+        <nav>
+            <a href="#">الرئيسية</a>
+            <a href="#">القائمة</a>
+            <a href="#">من نحن</a>
+            <a href="#">اتصل بنا</a>
+        </nav>
+    </header>
+
+    <!-- المحتوى الرئيسي (الترحيب) -->
+    <section class="hero">
+        <h1>مرحباً بك في عالم القهوة الأصيلة</h1>
+        <p>استمتع بأجود أنواع القهوة المحمصة بعناية لتمنحك طاقة تبدأ بها يومك بكل حيوية. تفضل باكتشاف قائمتنا المميزة.</p>
+        <a href="#" class="btn">استعرض القائمة</a>
+    </section>
+
+    <!-- ذيل الصفحة -->
+    <footer>
+        <p>جميع الحقوق محفوظة &copy; 2026 موقع كوفي</p>
+    </footer>
 
-    <div class="main-container">
-        <!-- Login Card -->
-        <div class="glass-card" id="loginCard">
-            <div class="brand-header">
-                <div class="logo-icon">
-                    <i class="fa-solid fa-graduation-cap"></i>
-                </div>
-                <h1>منصة مساعدة الطلاب</h1>
-                <p>أدخل اسم المستخدم المخصص للحصول على الصلاحيات</p>
-            </div>
-
-            <form id="loginForm" onsubmit="handleAuth(event)">
-                <div class="input-group">
-                    <label for="usernameInput">اسم المستخدم / كود الوصول</label>
-                    <div class="input-wrapper">
-                        <input type="text" id="usernameInput" class="input-field" placeholder="أدخل اسم المستخدم هنا..." required autocomplete="off">
-                        <i class="fa-solid fa-user-shield"></i>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-submit" id="submitBtn">
-                    <span id="btnText">تحقق</span>
-                    <div class="spinner" id="btnSpinner"></div>
-                </button>
-            </form>
-
-            <div class="lockout-warning" id="lockoutWarning">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                <span id="lockoutTimerText">تم حظرك مؤقتاً لكثرة المحاولات الخاطئة. الرجاء الانتظار: 15:00</span>
-            </div>
-
-            <div class="notice-box">
-                <i class="fa-solid fa-circle-info" style="color: var(--accent-glow); margin-left: 5px;"></i>
-                يتم الحصول على اسم المستخدم أو كود الولوج حصراً من إدارة المنصة.
-            </div>
-
-            <div class="site-footer">
-                تم تطوير هذا الموقع من قبل <span>عبدالرحمن الباقري</span>
-            </div>
-        </div>
-
-        <!-- Student View -->
-        <div class="app-view" id="studentDashboard">
-            <div class="app-header">
-                <div>
-                    <h2 id="welcomeStudent">مرحباً بك</h2>
-                    <p style="color: var(--text-muted); font-size: 13px;">بوابة المساعدة والموارد الدراسية التفاعلية</p>
-                </div>
-                <button class="btn-logout" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> خروج</button>
-            </div>
-
-            <!-- Announcements Banner for Students -->
-            <div id="studentAnnouncementsBanner" style="margin-bottom: 20px;"></div>
-
-            <!-- Student Tabs -->
-            <div class="admin-tabs">
-                <button class="tab-btn active" onclick="switchTab('studentMainTab', this)"><i class="fa-solid fa-house"></i> الرئيسية والمواد</button>
-                <button class="tab-btn" onclick="switchTab('studentChatTab', this)"><i class="fa-solid fa-comments"></i> الدردشة الجماعية</button>
-            </div>
-
-            <!-- Student Main Tab -->
-            <div class="tab-content active" id="studentMainTab">
-                <div class="grid-layout">
-                    <div class="card-item">
-                        <h3><i class="fa-solid fa-book-open" style="color: var(--accent-glow);"></i> الملخصات والمستندات المتاحة</h3>
-                        <div id="resourcesList" style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;">
-                            <p style="color: var(--text-muted); font-size: 13px;">جاري تحميل المواد المتاحة...</p>
-                        </div>
-                    </div>
-                    <div class="card-item">
-                        <h3><i class="fa-solid fa-paper-plane" style="color: var(--primary-glow);"></i> إرسال استفسار للمدير</h3>
-                        <textarea id="ticketInput" class="input-field" placeholder="اكتب سؤالك أو استفسارك هنا..." style="margin-top: 15px; height: 100px; resize: none;"></textarea>
-                        <button class="btn-submit" style="margin-top: 10px; padding: 10px;" onclick="sendTicket()">إرسال الاستفسار</button>
-                    </div>
-                </div>
-
-                <div class="card-item" style="margin-top: 20px;">
-                    <h3><i class="fa-solid fa-comments" style="color: var(--warning);"></i> استفساراتي والإجابات</h3>
-                    <div id="myTicketsList" style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;">
-                        <p style="color: var(--text-muted); font-size: 13px;">لا توجد استفسارات سابقة.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Student Group Chat Tab -->
-            <div class="tab-content" id="studentChatTab">
-                <div class="card-item">
-                    <h3><i class="fa-solid fa-users-viewfinder" style="color: var(--accent-glow);"></i> الدردشة الجماعية للطلاب</h3>
-                    <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 15px;">غرفة النقاش الجماعي الفوري لكافة الطلاب والمدير</p>
-                    
-                    <div class="chat-box" id="studentChatBox">
-                        <!-- Realtime Messages -->
-                    </div>
-
-                    <div style="display: flex; gap: 10px;">
-                        <input type="text" id="studentChatMessage" class="input-field" placeholder="اكتب رسالتك للمجموعه..." onkeypress="if(event.key==='Enter') sendChatMessage('studentChatMessage')">
-                        <button class="btn-submit" style="width: auto; padding: 0 25px;" onclick="sendChatMessage('studentChatMessage')"><i class="fa-solid fa-paper-plane"></i></button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="site-footer">
-                تم تطوير هذا الموقع من قبل <span>عبدالرحمن الباقري</span>
-            </div>
-        </div>
-
-        <!-- Admin Dashboard -->
-        <div class="app-view" id="adminDashboard">
-            <div class="app-header">
-                <div>
-                    <h2><i class="fa-solid fa-user-gear" style="color: var(--accent-glow);"></i> لوحة تحكم المدير المتكاملة</h2>
-                    <p style="color: var(--text-muted); font-size: 13px;">إدارة المستخدمين، الأكواد، الاستفسارات، والإعلانات</p>
-                </div>
-                <div style="display: flex; gap: 10px;">
-                    <button class="action-btn" onclick="exportDataToCSV()"><i class="fa-solid fa-file-excel" style="color: var(--success);"></i> تصدير البيانات</button>
-                    <button class="btn-logout" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> خروج</button>
-                </div>
-            </div>
-
-            <!-- Realtime Stats Bar -->
-            <div class="stats-bar">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: rgba(99, 102, 241, 0.15); color: var(--primary-glow);">
-                        <i class="fa-solid fa-users"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h4>إجمالي الطلاب</h4>
-                        <span id="statStudents">0</span>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: rgba(245, 158, 11, 0.15); color: var(--warning);">
-                        <i class="fa-solid fa-envelope-open-text"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h4>الاستفسارات المعلقة</h4>
-                        <span id="statPendingTickets">0</span>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: rgba(6, 182, 212, 0.15); color: var(--accent-glow);">
-                        <i class="fa-solid fa-key"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h4>الأكواد المولدة</h4>
-                        <span id="statKeys">0</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Admin Navigation Tabs -->
-            <div class="admin-tabs">
-                <button class="tab-btn active" onclick="switchTab('studentsTab', this)"><i class="fa-solid fa-users"></i> إدارة الطلاب والأكواد</button>
-                <button class="tab-btn" onclick="switchTab('ticketsTab', this)"><i class="fa-solid fa-headset"></i> الاستفسارات والردود</button>
-                <button class="tab-btn" onclick="switchTab('announcementsTab', this)"><i class="fa-solid fa-bullhorn"></i> الإعلانات والمواد</button>
-                <button class="tab-btn" onclick="switchTab('adminChatTab', this)"><i class="fa-solid fa-comments"></i> الدردشة الجماعية</button>
-                <button class="tab-btn" onclick="switchTab('adminSettingsTab', this)"><i class="fa-solid fa-gear"></i> إعدادات المدير</button>
-            </div>
-
-            <!-- Tab 1: Students & Access Keys -->
-            <div class="tab-content active" id="studentsTab">
-                <div class="grid-layout" style="margin-bottom: 20px;">
-                    <div class="card-item">
-                        <h3>إضافة طالب يدوي</h3>
-                        <div style="display: flex; gap: 10px; margin-top: 15px;">
-                            <input type="text" id="newStudentUser" class="input-field" placeholder="اسم المستخدم الجديد...">
-                            <button class="btn-submit" style="width: auto; padding: 0 20px;" onclick="addStudent()">حفظ</button>
-                        </div>
-                    </div>
-                    <div class="card-item">
-                        <h3>توليد كود دخول عشوائي</h3>
-                        <div style="display: flex; gap: 10px; margin-top: 15px;">
-                            <input type="text" id="generatedKeyCode" class="input-field" readonly placeholder="اضغط توليد...">
-                            <button class="btn-submit" style="width: auto; padding: 0 20px; background: linear-gradient(135deg, var(--accent), var(--primary));" onclick="generateAccessKey()">توليد كود</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-item">
-                    <h3>قائمة حسابات الطلاب المسجلة</h3>
-                    <div class="table-responsive">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>اسم المستخدم</th>
-                                    <th>الحالة</th>
-                                    <th>التاريخ</th>
-                                    <th>الإجراءات</th>
-                                </tr>
-                            </thead>
-                            <tbody id="studentsTable">
-                                <!-- Loaded from Firestore -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tab 2: Support Tickets & Replies -->
-            <div class="tab-content" id="ticketsTab">
-                <div class="card-item">
-                    <h3>استفسارات الطلاب الواردة</h3>
-                    <div class="table-responsive">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>الطالب</th>
-                                    <th>الاستفسار</th>
-                                    <th>الرد الحالي</th>
-                                    <th>الحالة</th>
-                                    <th>إجراءات والرد</th>
-                                </tr>
-                            </thead>
-                            <tbody id="adminTicketsTable">
-                                <!-- Loaded from Firestore -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tab 3: Announcements & Resources -->
-            <div class="tab-content" id="announcementsTab">
-                <div class="grid-layout" style="margin-bottom: 20px;">
-                    <div class="card-item">
-                        <h3>نشر إعلان / تنبيه للطلاب</h3>
-                        <input type="text" id="announcementTitle" class="input-field" placeholder="عنوان الإعلان..." style="margin-top: 10px;">
-                        <textarea id="announcementContent" class="input-field" placeholder="محتوى التنبيه..." style="margin-top: 10px; height: 80px; resize: none;"></textarea>
-                        <button class="btn-submit" style="margin-top: 10px; padding: 10px;" onclick="postAnnouncement()">نشر الإعلان</button>
-                    </div>
-                    <div class="card-item">
-                        <h3>إضافة ملخص / رابط ملف</h3>
-                        <input type="text" id="resourceTitle" class="input-field" placeholder="اسم المادة / الملخص..." style="margin-top: 10px;">
-                        <input type="url" id="resourceUrl" class="input-field" placeholder="رابط الملف (Google Drive / PDF)..." style="margin-top: 10px;">
-                        <button class="btn-submit" style="margin-top: 10px; padding: 10px; background: linear-gradient(135deg, var(--accent), var(--primary));" onclick="addResource()">إضافة المادة</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tab 4: Group Chat for Admin -->
-            <div class="tab-content" id="adminChatTab">
-                <div class="card-item">
-                    <h3><i class="fa-solid fa-comments" style="color: var(--accent-glow);"></i> غرفه الدردشة المباشرة مع الطلاب</h3>
-                    <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 15px;">يمكنك متابعة التفاعل والتواصل المباشر مع الطلاب هنا</p>
-
-                    <div class="chat-box" id="adminChatBox">
-                        <!-- Realtime Messages -->
-                    </div>
-
-                    <div style="display: flex; gap: 10px;">
-                        <input type="text" id="adminChatMessage" class="input-field" placeholder="اكتب رسالة كمدير للنظام..." onkeypress="if(event.key==='Enter') sendChatMessage('adminChatMessage')">
-                        <button class="btn-submit" style="width: auto; padding: 0 25px;" onclick="sendChatMessage('adminChatMessage')"><i class="fa-solid fa-paper-plane"></i></button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tab 5: Admin Settings -->
-            <div class="tab-content" id="adminSettingsTab">
-                <div class="card-item" style="max-width: 500px; margin: 0 auto;">
-                    <h3><i class="fa-solid fa-user-pen" style="color: var(--accent-glow);"></i> تغيير اسم المدير</h3>
-                    <p style="color: var(--text-muted); font-size: 12px; margin-top: 5px;">تغيير اسم مدير النظام الخاص بدخولك والظهور بالدردشة</p>
-                    
-                    <div style="margin-top: 20px;">
-                        <label style="font-size: 13px; color: var(--text-muted); display: block; margin-bottom: 8px;">اسم المدير الحالي / الجديد:</label>
-                        <input type="text" id="adminUsernameInput" class="input-field" placeholder="أدخل اسم المدير الجديد...">
-                        <button class="btn-submit" style="margin-top: 15px;" onclick="updateAdminUsername()">حفظ الاسم الجديد</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="site-footer">
-                تم تطوير هذا الموقع من قبل <span>عبدالرحمن الباقري</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast Notification -->
-    <div class="toast" id="toast">
-        <i id="toastIcon" class="fa-solid fa-circle-check"></i>
-        <span id="toastMsg">تمت العملية بنجاح</span>
-    </div>
-
-    <!-- Firebase SDK Modules -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, where, orderBy, getDocs, setDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        // إعدادات مشروعك في Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyD_2Lvrw1xLzXAt6HtBx_DqcN7KP2jjNWs",
-            authDomain: "myappa-46b04.firebaseapp.com",
-            projectId: "myappa-46b04",
-            storageBucket: "myappa-46b04.firebasestorage.app",
-            messagingSenderId: "520385718909",
-            appId: "1:520385718909:web:f554570a2d31c14e7c9f14",
-            measurementId: "G-Y87GR8SJV6"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        signInAnonymously(auth).catch((err) => console.log("Auth notice:", err.message));
-
-        window.db = db;
-        window.firestoreTools = { collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, where, orderBy, getDocs, setDoc, getDoc, serverTimestamp };
-    </script>
-
-    <script>
-        let currentUser = null;
-        let adminUsername = localStorage.getItem('admin_username') || "المدير"; // Default or Saved Admin Username
-        let failedAttempts = 0;
-        let lockoutTimerInterval = null;
-
-        // 3D Particles Background (Three.js)
-        let scene, camera, renderer, particles;
-        function init3D() {
-            const container = document.getElementById('canvas-container');
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 5;
-
-            renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            container.appendChild(renderer.domElement);
-
-            const geometry = new THREE.BufferGeometry();
-            const count = 750;
-            const positions = new Float32Array(count * 3);
-
-            for(let i = 0; i < count * 3; i++) {
-                positions[i] = (Math.random() - 0.5) * 12;
-            }
-
-            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            const material = new THREE.PointsMaterial({
-                size: 0.025,
-                color: 0x6366f1,
-                transparent: true,
-                opacity: 0.6
-            });
-
-            particles = new THREE.Points(geometry, material);
-            scene.add(particles);
-
-            animate();
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-            if(particles) {
-                particles.rotation.y += 0.001;
-                particles.rotation.x += 0.0005;
-            }
-            renderer.render(scene, camera);
-        }
-
-        window.addEventListener('resize', () => {
-            if(camera && renderer) {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            }
-        });
-
-        init3D();
-
-        // Toast Helper
-        function showToast(msg, icon = 'fa-circle-check', color = 'var(--success)') {
-            const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toastMsg');
-            const toastIcon = document.getElementById('toastIcon');
-            toastMsg.innerText = msg;
-            toastIcon.className = `fa-solid ${icon}`;
-            toastIcon.style.color = color;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3500);
-        }
-
-        // Tab Switching
-        function switchTab(tabId, btn) {
-            const parent = btn.parentElement;
-            parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            
-            const view = parent.closest('.app-view');
-            view.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            
-            document.getElementById(tabId).classList.add('active');
-            btn.classList.add('active');
-        }
-
-        // Lockout Check Helper
-        function checkLockoutStatus() {
-            const lockoutUntil = localStorage.getItem('lockoutUntil');
-            if(lockoutUntil) {
-                const now = Date.now();
-                if(now < parseInt(lockoutUntil)) {
-                    startLockoutCountdown(parseInt(lockoutUntil) - now);
-                    return true;
-                } else {
-                    localStorage.removeItem('lockoutUntil');
-                    failedAttempts = 0;
-                }
-            }
-            return false;
-        }
-
-        function startLockoutCountdown(durationMs) {
-            const submitBtn = document.getElementById('submitBtn');
-            const usernameInput = document.getElementById('usernameInput');
-            const warningBox = document.getElementById('lockoutWarning');
-            const timerText = document.getElementById('lockoutTimerText');
-
-            submitBtn.disabled = true;
-            usernameInput.disabled = true;
-            warningBox.style.display = 'block';
-
-            let remainingTime = Math.floor(durationMs / 1000);
-
-            if(lockoutTimerInterval) clearInterval(lockoutTimerInterval);
-
-            lockoutTimerInterval = setInterval(() => {
-                const mins = Math.floor(remainingTime / 60);
-                const secs = remainingTime % 60;
-                timerText.innerText = `تم حظرك مؤقتاً لكثرة المحاولات الخاطئة. الرجاء الانتظار: ${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-                
-                remainingTime--;
-
-                if(remainingTime < 0) {
-                    clearInterval(lockoutTimerInterval);
-                    localStorage.removeItem('lockoutUntil');
-                    failedAttempts = 0;
-                    submitBtn.disabled = false;
-                    usernameInput.disabled = false;
-                    warningBox.style.display = 'none';
-                    showToast('تم فك الحظر، يمكنك الآن كتابة كود الوصول مجدداً', 'fa-circle-check');
-                }
-            }, 1000);
-        }
-
-        // Fetch Admin Config from Firestore
-        async function fetchAdminConfig() {
-            try {
-                const { doc, getDoc } = window.firestoreTools;
-                const adminDocRef = doc(window.db, "settings", "admin_config");
-                const docSnap = await getDoc(adminDocRef);
-                if(docSnap.exists() && docSnap.data().username) {
-                    adminUsername = docSnap.data().username;
-                    localStorage.setItem('admin_username', adminUsername);
-                }
-            } catch(e) {
-                console.log("Admin config fetch error:", e);
-            }
-        }
-
-        // Auth Handler
-        async function handleAuth(e) {
-            e.preventDefault();
-
-            if(checkLockoutStatus()) {
-                showToast('أنت محظور حالياً من المحاولة!', 'fa-circle-xmark', 'var(--danger)');
-                return;
-            }
-
-            const username = document.getElementById('usernameInput').value.trim();
-            const btnText = document.getElementById('btnText');
-            const spinner = document.getElementById('btnSpinner');
-
-            if(!username) return;
-
-            btnText.style.display = 'none';
-            spinner.style.display = 'block';
-
-            await fetchAdminConfig();
-
-            try {
-                // Admin login (supports 'aboode2004202326' or updated admin username)
-                if(username === 'aboode2004202326' || username === adminUsername) {
-                    currentUser = adminUsername;
-                    failedAttempts = 0;
-                    setTimeout(() => {
-                        document.getElementById('loginCard').style.display = 'none';
-                        document.getElementById('adminDashboard').style.display = 'block';
-                        document.getElementById('adminUsernameInput').value = adminUsername;
-                        initAdminDashboard();
-                        listenToGroupChat();
-                        showToast(`تم تسجيل الدخول مرحباً ${adminUsername}`, 'fa-user-gear');
-                    }, 800);
-                    return;
-                }
-
-                // Check student in Firestore
-                const { collection, query, where, getDocs } = window.firestoreTools;
-                const q = query(collection(window.db, "users"), where("username", "==", username));
-                const querySnapshot = await getDocs(q);
-
-                if (!querySnapshot.empty) {
-                    const userData = querySnapshot.docs[0].data();
-                    if(userData.status === 'معطل') {
-                        showToast('هذا الحساب معطل حالياً من الإدارة!', 'fa-circle-xmark', 'var(--danger)');
-                        btnText.style.display = 'block';
-                        spinner.style.display = 'none';
-                        return;
-                    }
-
-                    currentUser = username;
-                    failedAttempts = 0;
-                    setTimeout(() => {
-                        document.getElementById('loginCard').style.display = 'none';
-                        document.getElementById('studentDashboard').style.display = 'block';
-                        document.getElementById('welcomeStudent').innerText = `أهلاً بك، ${username}`;
-                        initStudentDashboard();
-                        listenToGroupChat();
-                        showToast('تم التحقق بنجاح! مرحباً بك', 'fa-circle-check');
-                    }, 800);
-                } else {
-                    failedAttempts++;
-                    btnText.style.display = 'block';
-                    spinner.style.display = 'none';
-
-                    if(failedAttempts >= 4) {
-                        const lockoutUntil = Date.now() + (15 * 60 * 1000); // 15 mins
-                        localStorage.setItem('lockoutUntil', lockoutUntil.toString());
-                        startLockoutCountdown(15 * 60 * 1000);
-                        showToast('تم إدخال كود خاطئ 4 مرات! تم حظرك لمدة 15 دقيقة', 'fa-triangle-exclamation', 'var(--danger)');
-                    } else {
-                        const remaining = 4 - failedAttempts;
-                        showToast(`الكود غير صحيح! تبقى لديك ${remaining} محاولات قبل الحظر`, 'fa-circle-xmark', 'var(--danger)');
-                    }
-                }
-            } catch (err) {
-                console.error(err);
-                showToast('حدث خطأ في الاتصال: ' + err.message, 'fa-triangle-exclamation', 'var(--danger)');
-                btnText.style.display = 'block';
-                spinner.style.display = 'none';
-            }
-        }
-
-        // Admin Name Update Feature
-        async function updateAdminUsername() {
-            const newAdminName = document.getElementById('adminUsernameInput').value.trim();
-            if(!newAdminName) {
-                showToast('يرجى إدخال اسم صحيح', 'fa-circle-xmark', 'var(--danger)');
-                return;
-            }
-
-            try {
-                const { doc, setDoc } = window.firestoreTools;
-                await setDoc(doc(window.db, "settings", "admin_config"), {
-                    username: newAdminName
-                }, { merge: true });
-
-                currentUser = newAdminName;
-                adminUsername = newAdminName;
-                localStorage.setItem('admin_username', newAdminName);
-                showToast('تم تحديث اسم المدير بنجاح');
-            } catch(e) {
-                showToast('فشل تعديل اسم المدير: ' + e.message, 'fa-circle-xmark', 'var(--danger)');
-            }
-        }
-
-        // Initialize Student Portal Data
-        function initStudentDashboard() {
-            const { collection, onSnapshot, query, where } = window.firestoreTools;
-
-            // Load Announcements
-            onSnapshot(collection(window.db, "announcements"), (snapshot) => {
-                const banner = document.getElementById('studentAnnouncementsBanner');
-                banner.innerHTML = '';
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    banner.innerHTML += `
-                        <div style="background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.3); padding: 15px; border-radius: 16px; margin-bottom: 10px;">
-                            <h4 style="color: var(--accent-glow);"><i class="fa-solid fa-bullhorn"></i> ${data.title}</h4>
-                            <p style="font-size: 13px; color: var(--text-main); margin-top: 5px;">${data.content}</p>
-                        </div>
-                    `;
-                });
-            });
-
-            // Load Resources
-            onSnapshot(collection(window.db, "resources"), (snapshot) => {
-                const list = document.getElementById('resourcesList');
-                list.innerHTML = '';
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    list.innerHTML += `
-                        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
-                            <span style="font-size: 14px;"><i class="fa-solid fa-file-pdf" style="color: var(--danger); margin-left: 8px;"></i> ${data.title}</span>
-                            <a href="${data.url}" target="_blank" class="action-btn" style="text-decoration: none; color: var(--accent-glow);"><i class="fa-solid fa-download"></i> فتح / تنزيل</a>
-                        </div>
-                    `;
-                });
-            });
-
-            // Load Student Tickets
-            const q = query(collection(window.db, "tickets"), where("username", "==", currentUser));
-            onSnapshot(q, (snapshot) => {
-                const list = document.getElementById('myTicketsList');
-                list.innerHTML = '';
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    list.innerHTML += `
-                        <div style="background: rgba(255,255,255,0.02); padding: 14px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.05);">
-                            <p style="font-weight: 600;">سؤالك: ${data.message}</p>
-                            <p style="font-size: 13px; color: var(--accent-glow); margin-top: 8px;">
-                                <i class="fa-solid fa-reply"></i> الرد: ${data.reply || 'بانتظار رد المدير...'}
-                            </p>
-                        </div>
-                    `;
-                });
-            });
-        }
-
-        // Initialize Admin Realtime Dashboard
-        function initAdminDashboard() {
-            const { collection, onSnapshot } = window.firestoreTools;
-
-            // Load Students
-            onSnapshot(collection(window.db, "users"), (snapshot) => {
-                const tableBody = document.getElementById('studentsTable');
-                tableBody.innerHTML = '';
-                document.getElementById('statStudents').innerText = snapshot.size;
-                snapshot.forEach((docSnap) => {
-                    const data = docSnap.data();
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td>${data.username}</td>
-                        <td><span class="tag ${data.status === 'معطل' ? 'tag-danger' : 'tag-active'}">${data.status || 'مفعل'}</span></td>
-                        <td>نشط</td>
-                        <td>
-                            <button class="action-btn" onclick="toggleUserStatus('${docSnap.id}', '${data.status}')"><i class="fa-solid fa-power-off"></i></button>
-                            <button class="action-btn delete" onclick="deleteDocument('users', '${docSnap.id}')"><i class="fa-solid fa-trash"></i></button>
-                        </td>
-                    `;
-                    tableBody.appendChild(tr);
-                });
-            });
-
-            // Load Admin Tickets
-            onSnapshot(collection(window.db, "tickets"), (snapshot) => {
-                const tableBody = document.getElementById('adminTicketsTable');
-                tableBody.innerHTML = '';
-                let pending = 0;
-                snapshot.forEach((docSnap) => {
-                    const data = docSnap.data();
-                    if(!data.reply) pending++;
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td>${data.username || 'طالب'}</td>
-                        <td>${data.message}</td>
-                        <td>${data.reply || '<span class="tag tag-pending">معلق</span>'}</td>
-                        <td><span class="tag ${data.reply ? 'tag-active' : 'tag-pending'}">${data.reply ? 'تم الرد' : 'جديد'}</span></td>
-                        <td>
-                            <button class="action-btn" onclick="replyTicket('${docSnap.id}')"><i class="fa-solid fa-pen-to-square"></i> رد</button>
-                            <button class="action-btn delete" onclick="deleteDocument('tickets', '${docSnap.id}')"><i class="fa-solid fa-trash"></i></button>
-                        </td>
-                    `;
-                    tableBody.appendChild(tr);
-                });
-                document.getElementById('statPendingTickets').innerText = pending;
-            });
-
-            // Count Access Keys
-            onSnapshot(collection(window.db, "access_keys"), (snapshot) => {
-                document.getElementById('statKeys').innerText = snapshot.size;
-            });
-        }
-
-        // Realtime Group Chat Feature
-        function listenToGroupChat() {
-            const { collection, onSnapshot, query, orderBy } = window.firestoreTools;
-            const chatQuery = query(collection(window.db, "messages"), orderBy("createdAt", "asc"));
-
-            onSnapshot(chatQuery, (snapshot) => {
-                const studentBox = document.getElementById('studentChatBox');
-                const adminBox = document.getElementById('adminChatBox');
-
-                let htmlContent = '';
-                snapshot.forEach(docSnap => {
-                    const msg = docSnap.data();
-                    const isOwn = msg.sender === currentUser;
-                    const dateObj = msg.createdAt ? msg.createdAt.toDate() : new Date();
-                    const timeStr = dateObj.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
-
-                    htmlContent += `
-                        <div class="chat-message ${isOwn ? 'own' : 'other'}">
-                            <span class="chat-sender">${msg.sender}</span>
-                            <div>${msg.text}</div>
-                            <span class="chat-time">${timeStr}</span>
-                        </div>
-                    `;
-                });
-
-                if(studentBox) {
-                    studentBox.innerHTML = htmlContent || '<p style="color:var(--text-muted); text-align:center; margin-top:20px;">لا توجد رسائل سابقة. كن أول من يرسل!</p>';
-                    studentBox.scrollTop = studentBox.scrollHeight;
-                }
-                if(adminBox) {
-                    adminBox.innerHTML = htmlContent || '<p style="color:var(--text-muted); text-align:center; margin-top:20px;">لا توجد رسائل سابقة.</p>';
-                    adminBox.scrollTop = adminBox.scrollHeight;
-                }
-            });
-        }
-
-        // Send Chat Message
-        async function sendChatMessage(inputId) {
-            const input = document.getElementById(inputId);
-            const text = input.value.trim();
-            if(!text) return;
-
-            try {
-                const { collection, addDoc, serverTimestamp } = window.firestoreTools;
-                await addDoc(collection(window.db, "messages"), {
-                    sender: currentUser,
-                    text: text,
-                    createdAt: serverTimestamp()
-                });
-                input.value = '';
-            } catch(e) {
-                showToast('فشل إرسال الرسالة', 'fa-circle-xmark', 'var(--danger)');
-            }
-        }
-
-        // Add Student
-        async function addStudent() {
-            const usernameInput = document.getElementById('newStudentUser');
-            const username = usernameInput.value.trim();
-            if(!username) return;
-
-            try {
-                const { collection, addDoc } = window.firestoreTools;
-                await addDoc(collection(window.db, "users"), {
-                    username: username,
-                    status: 'مفعل'
-                });
-                usernameInput.value = '';
-                showToast('تمت إضافة الطالب بنجاح');
-            } catch(e) {
-                showToast('حدث خطأ في الإضافة', 'fa-circle-xmark', 'var(--danger)');
-            }
-        }
-
-        // Logout
-        function logout() {
-            currentUser = null;
-            document.getElementById('adminDashboard').style.display = 'none';
-            document.getElementById('studentDashboard').style.display = 'none';
-            document.getElementById('loginCard').style.display = 'block';
-            document.getElementById('usernameInput').value = '';
-            showToast('تم تسجيل الخروج بنجاح');
-        }
-    </script>
 </body>
 </html>
