@@ -794,14 +794,14 @@
                 </div>
             </div>
 
-            <!-- Tab 5: Admin Settings (NEW) -->
+            <!-- Tab 5: Admin Settings -->
             <div class="tab-content" id="adminSettingsTab">
                 <div class="card-item" style="max-width: 500px; margin: 0 auto;">
                     <h3><i class="fa-solid fa-user-pen" style="color: var(--accent-glow);"></i> تغيير اسم المدير</h3>
                     <p style="color: var(--text-muted); font-size: 12px; margin-top: 5px;">تغيير اسم مدير النظام الخاص بدخولك والظهور بالدردشة</p>
                     
                     <div style="margin-top: 20px;">
-                        <label style="font-size: 13px; color: var(--text-muted); display: block; margin-bottom: 8px;">اسم المدير الحالي:</label>
+                        <label style="font-size: 13px; color: var(--text-muted); display: block; margin-bottom: 8px;">اسم المدير الحالي / الجديد:</label>
                         <input type="text" id="adminUsernameInput" class="input-field" placeholder="أدخل اسم المدير الجديد...">
                         <button class="btn-submit" style="margin-top: 15px;" onclick="updateAdminUsername()">حفظ الاسم الجديد</button>
                     </div>
@@ -849,7 +849,7 @@
 
     <script>
         let currentUser = null;
-        let adminUsername = "المدير"; // Default Admin Username
+        let adminUsername = localStorage.getItem('admin_username') || "المدير"; // Default or Saved Admin Username
         let failedAttempts = 0;
         let lockoutTimerInterval = null;
 
@@ -985,8 +985,9 @@
                 const { doc, getDoc } = window.firestoreTools;
                 const adminDocRef = doc(window.db, "settings", "admin_config");
                 const docSnap = await getDoc(adminDocRef);
-                if(docSnap.exists()) {
-                    adminUsername = docSnap.data().username || "المدير";
+                if(docSnap.exists() && docSnap.data().username) {
+                    adminUsername = docSnap.data().username;
+                    localStorage.setItem('admin_username', adminUsername);
                 }
             } catch(e) {
                 console.log("Admin config fetch error:", e);
@@ -1014,7 +1015,7 @@
             await fetchAdminConfig();
 
             try {
-                // Admin login (supports default "admin" or updated admin username)
+                // Admin login (supports 'admin' or updated admin username)
                 if(username.toLowerCase() === 'admin' || username === adminUsername) {
                     currentUser = adminUsername;
                     failedAttempts = 0;
@@ -1092,6 +1093,7 @@
 
                 currentUser = newAdminName;
                 adminUsername = newAdminName;
+                localStorage.setItem('admin_username', newAdminName);
                 showToast('تم تحديث اسم المدير بنجاح');
             } catch(e) {
                 showToast('فشل تعديل اسم المدير: ' + e.message, 'fa-circle-xmark', 'var(--danger)');
@@ -1220,8 +1222,4 @@
                     const msg = docSnap.data();
                     const isOwn = msg.sender === currentUser;
                     const dateObj = msg.createdAt ? msg.createdAt.toDate() : new Date();
-                    const timeStr = dateObj.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
-
-                    htmlContent += `
-                        <div class="chat-message ${isOwn ? 'own' : 'other'}">
-                            <span class="chat-sender">${msg.s
+                    const timeStr = dateObj.toLocaleTimeString('ar-EG', { hour: '2-d
