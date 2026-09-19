@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مرحباً بك في موقع كوفي</title>
-    <!-- استيراد خط عربي أنيق من جوجل -->
+    <title>إدارة كوفي عبود</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -14,129 +13,1048 @@
             font-family: 'Cairo', sans-serif;
         }
 
+        :root {
+            --bg-dark: #121212;
+            --surface-dark: #1e1e1e;
+            --primary: #c67d5a;
+            --primary-hover: #d49372;
+            --text-main: #f5f5f5;
+            --text-muted: #a0a0a0;
+            --border: #2c2c2c;
+        }
+
         body {
-            /* خلفية تدمج لون القهوة مع صورة تعبيرية وتعتيم خفيف */
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
-                        url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
-            background-size: cover;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* --- شاشة تسجيل الدخول الآمنة --- */
+        #authScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .auth-box {
+            background: var(--surface-dark);
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        .auth-box h2 {
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-size: 24px;
+        }
+
+        .auth-box p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            background: #262626;
+            border: 1px solid var(--border);
+            border-radius: 8px;
             color: #fff;
+            font-size: 15px;
+            margin-bottom: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+        }
+
+        .btn-custom {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-custom:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .error-text {
+            color: #e53935;
+            font-size: 13px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* --- النظام الأساسي (لوحة تحكم جانبية) --- */
+        #appContainer {
+            display: none;
+            width: 100%;
             height: 100vh;
+        }
+
+        .sidebar {
+            width: 260px;
+            background-color: var(--surface-dark);
+            border-left: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            padding: 20px;
         }
 
-        header {
+        .sidebar-brand {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            flex: 1;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 8px;
+        }
+
+        .sidebar-menu a {
+            display: block;
+            padding: 12px 16px;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(198, 125, 90, 0.15);
+            color: var(--primary);
+        }
+
+        .sidebar-footer a {
+            color: #e53935;
+            background: rgba(229, 57, 53, 0.1);
+        }
+        .sidebar-footer a:hover {
+            background: rgba(229, 57, 53, 0.2);
+        }
+
+        /* المحتوى الرئيسي */
+        .main-content {
+            flex: 1;
+            background-color: var(--bg-dark);
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .top-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 50px;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(5px);
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: #d4a373;
-        }
-
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            margin-left: 20px;
-            font-size: 16px;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: #d4a373;
-        }
-
-        .hero {
-            text-align: center;
-            padding: 0 20px;
-            max-width: 800px;
-            margin: auto;
-        }
-
-        .hero h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            color: #fefae0;
-        }
-
-        .hero p {
-            font-size: 18px;
             margin-bottom: 30px;
-            color: #d4d4d4;
-            line-height: 1.6;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
         }
 
-        .btn {
-            display: inline-block;
-            background-color: #bc6c25;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 30px;
-            text-decoration: none;
+        .top-header h1 {
+            font-size: 22px;
             font-weight: 600;
-            transition: background 0.3s, transform 0.2s;
         }
 
-        .btn:hover {
-            background-color: #dda15e;
-            transform: translateY(-3px);
+        .user-badge {
+            background: #262626;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: var(--primary);
+            border: 1px solid var(--border);
         }
 
-        footer {
-            text-align: center;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.5);
+        /* بطاقات الإحصائيات */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background-color: var(--surface-dark);
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .card h3 {
+            color: var(--text-muted);
             font-size: 14px;
-            color: #aaa;
+            margin-bottom: 8px;
         }
 
-        /* تصميم متجاوب للشاشات الصغيرة */
+        .card .number {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        /* شبكة الطاولات الـ 25 */
+        .tables-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .table-card {
+            background-color: var(--surface-dark);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .table-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+        }
+
+        .table-card h4 {
+            font-size: 16px;
+            margin-bottom: 6px;
+            color: #fff;
+        }
+
+        .table-status {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-free { background: rgba(76, 175, 80, 0.15); color: #4caf50; }
+        .status-busy { background: rgba(229, 57, 53, 0.15); color: #e53935; }
+
+        /* نافذة إدارة طلبيات الطاولة */
+        #tableModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: var(--surface-dark);
+            border: 1px solid var(--border);
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            border-radius: 16px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .modal-header h3 {
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .order-items-list {
+            max-height: 180px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            background: #262626;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+        .order-row-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #333;
+        }
+        .order-row-item:last-child {
+            border-bottom: none;
+        }
+
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .qty-btn {
+            background: #333;
+            color: #fff;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .qty-btn:hover {
+            background: var(--primary);
+        }
+
+        .total-box {
+            background: #262626;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* الأقسام العامة */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active-section {
+            display: block;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--surface-dark);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .data-table th, .data-table td {
+            padding: 14px 20px;
+            text-align: right;
+        }
+
+        .data-table th {
+            background-color: #262626;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .data-table td {
+            border-top: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        .del-btn {
+            background: rgba(229, 57, 53, 0.15);
+            color: #e53935;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .del-btn:hover {
+            background: rgba(229, 57, 53, 0.3);
+        }
+
+        .checkout-btn {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+            border: 1px solid #4caf50;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+        .checkout-btn:hover {
+            background: rgba(76, 175, 80, 0.4);
+        }
+
+        .add-item-box {
+            background: var(--surface-dark);
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 12px;
+        }
+
         @media (max-width: 768px) {
-            header {
-                padding: 15px 20px;
+            body {
                 flex-direction: column;
-                gap: 10px;
             }
-            .hero h1 {
-                font-size: 36px;
+            .sidebar {
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                align-items: center;
+                padding: 10px 20px;
             }
-            .hero p {
-                font-size: 16px;
+            .sidebar-menu {
+                display: none;
+            }
+            #appContainer {
+                flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- رأس الصفحة (الشاوة والقوائم) -->
-    <header>
-        <div class="logo">☕ كوفي شوب</div>
-        <nav>
-            <a href="#">الرئيسية</a>
-            <a href="#">القائمة</a>
-            <a href="#">من نحن</a>
-            <a href="#">اتصل بنا</a>
-        </nav>
-    </header>
+    <!-- شاشة تسجيل الدخول -->
+    <div id="authScreen">
+        <div class="auth-box">
+            <h2>كوفي عبود</h2>
+            <p>تسجيل دخول المدير</p>
+            <form onsubmit="handleAuthLogin(event)">
+                <input type="text" id="adminInput" class="form-control" placeholder="أدخل اسم المستخدم..." required autocomplete="off">
+                <button type="submit" class="btn-custom">دخول للنظام</button>
+                <div id="authError" class="error-text">اسم المستخدم غير صحيح!</div>
+            </form>
+        </div>
+    </div>
 
-    <!-- المحتوى الرئيسي (الترحيب) -->
-    <section class="hero">
-        <h1>مرحباً بك في عالم القهوة الأصيلة</h1>
-        <p>استمتع بأجود أنواع القهوة المحمصة بعناية لتمنحك طاقة تبدأ بها يومك بكل حيوية. تفضل باكتشاف قائمتنا المميزة.</p>
-        <a href="#" class="btn">استعرض القائمة</a>
-    </section>
+    <!-- نافذة إدارة طلبيات الطاولة وتعديل الكميات -->
+    <div id="tableModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTableTitle">إدارة الطاولة</h3>
+                <button class="close-btn" onclick="closeTableModal()">&times;</button>
+            </div>
+            <div style="margin-bottom: 10px;">
+                <label style="font-size: 13px; color: var(--text-muted); display: block; margin-bottom: 5px;">الطلبات والكميات الحالية على الطاولة:</label>
+                <div id="modalOrderList" class="order-items-list">لا توجد طلبات مسجلة بعد.</div>
+            </div>
+            <div class="total-box">
+                <span>المبلغ الإجمالي للطاولة:</span>
+                <span id="modalTotalPrice">0 د.ع</span>
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 13px; color: var(--text-muted); display: block; margin-bottom: 5px;">إضافة صنف جديد (مشروب / نارجيلة):</label>
+                <select id="itemSelect" class="form-control" style="margin-bottom: 10px;"></select>
+                <button class="btn-custom" onclick="addDrinkToTable()">إضافة للطاولة</button>
+            </div>
+            <button class="checkout-btn" onclick="checkoutTable()">إغلاق الحساب وتحصيل الإيراد 💰</button>
+        </div>
+    </div>
 
-    <!-- ذيل الصفحة -->
-    <footer>
-        <p>جميع الحقوق محفوظة &copy; 2026 موقع كوفي</p>
-    </footer>
+    <!-- نظام إدارة لوحة التحكم -->
+    <div id="appContainer">
+        <!-- الشريط الجانبي -->
+        <aside class="sidebar">
+            <div>
+                <div class="sidebar-brand">☕ كوفي عبود</div>
+                <ul class="sidebar-menu">
+                    <li><a class="menu-link active" onclick="switchTab('home', this)">الرئيسية والإحصائيات</a></li>
+                    <li><a class="menu-link" onclick="switchTab('tables', this)">إدارة الطاولات (25)</a></li>
+                    <li><a class="menu-link" onclick="switchTab('products', this)">تعديل المنيو (مشروبات ونراجيل)</a></li>
+                    <li><a class="menu-link" onclick="switchTab('expenses', this)">المصروفات النثرية 💸</a></li>
+                    <li><a class="menu-link" onclick="switchTab('orders', this)">طلبات العملاء</a></li>
+                </ul>
+            </div>
+            <div class="sidebar-footer">
+                <ul class="sidebar-menu">
+                    <li><a onclick="handleLogout()">تسجيل الخروج</a></li>
+                </ul>
+            </div>
+        </aside>
 
+        <!-- المحتوى الرئيسي -->
+        <main class="main-content">
+            <header class="top-header">
+                <h1 id="pageTitle">لوحة التحكم الرئيسية</h1>
+                <div class="user-badge">👤 abood2003</div>
+            </header>
+
+            <!-- القسم الأول: الرئيسية والإحصائيات -->
+            <div id="homeSection" class="content-section active-section">
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <h3>الطلبات النشطة اليوم</h3>
+                        <div class="number" id="activeOrdersCount">0</div>
+                    </div>
+                    <div class="card">
+                        <h3>إجمالي الإيرادات</h3>
+                        <div class="number" id="totalRevenueDisplay">0 د.ع</div>
+                    </div>
+                    <div class="card">
+                        <h3>إجمالي المصروفات</h3>
+                        <div class="number" id="totalExpensesDisplay">0 د.ع</div>
+                    </div>
+                    <div class="card" style="border-color: var(--primary);">
+                        <h3>صافي الربح الحقيقي</h3>
+                        <div class="number" id="netProfitDisplay" style="color: var(--primary);">0 د.ع</div>
+                    </div>
+                </div>
+                
+                <!-- زر تصدير التقرير (ميزة رقم 4) -->
+                <div class="card" style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h3 style="color:#fff; margin-bottom:4px;">تصدير تقرير المبيعات والأرباح</h3>
+                        <p style="color:var(--text-muted); font-size:13px;">تحميل ملف إكسل (CSV) يحتوي على ملخص الحسابات والمصروفات اليومية.</p>
+                    </div>
+                    <button class="btn-custom" style="width: auto; padding: 10px 20px;" onclick="exportReportExcel()">تنزيل تقرير Excel 📊</button>
+                </div>
+
+                <div class="card">
+                    <h3 style="color:#fff; margin-bottom:12px;">مرحباً بك يا مدير في كوفي عبود</h3>
+                    <p style="color:var(--text-muted); line-height:1.6;">تم تفعيل ميزة حفظ البيانات بالمتصفح (LocalStorage) وتصدير التقارير لتتمكن من متابعة عملك بأمان ودون فقدان أي معلومة.</p>
+                </div>
+            </div>
+
+            <!-- القسم الثاني: نظام الـ 25 طاولة -->
+            <div id="tablesSection" class="content-section">
+                <div id="tablesGridContainer" class="tables-grid"></div>
+            </div>
+
+            <!-- القسم الثالث: تعديل المنيو الشامل -->
+            <div id="productsSection" class="content-section">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>اسم الصنف</th>
+                            <th>النوع</th>
+                            <th>السعر (د.ع)</th>
+                            <th>إجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody id="menuTableBody"></tbody>
+                </table>
+
+                <div class="add-item-box">
+                    <h3 style="color: var(--primary); margin-bottom: 15px; font-size: 16px;">إضافة صنف جديد (مشروب / نارجيلة)</h3>
+                    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 10px;">
+                        <input type="text" id="newProdName" class="form-control" placeholder="اسم الصنف..." style="margin-bottom:0;">
+                        <input type="text" id="newProdType" class="form-control" placeholder="النوع..." style="margin-bottom:0;" value="نراجيل ومعسلات">
+                        <input type="number" id="newProdPrice" class="form-control" placeholder="السعر (بالدينار)..." style="margin-bottom:0;">
+                        <button class="btn-custom" style="width: auto; padding: 0 20px;" onclick="addNewProduct()">إضافة</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- القسم الرابع: المصروفات النثرية -->
+            <div id="expensesSection" class="content-section">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>بيان المصروف (فحم، بن، غاز...)</th>
+                            <th>المبلغ (د.ع)</th>
+                            <th>إجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expensesTableBody">
+                        <tr><td colspan="3" style="text-align: center; color: var(--text-muted);">لا توجد مصروفات مسجلة اليوم.</td></tr>
+                    </tbody>
+                </table>
+
+                <div class="add-item-box">
+                    <h3 style="color: var(--primary); margin-bottom: 15px; font-size: 16px;">تسجيل مصروف جديد</h3>
+                    <div style="display: grid; grid-template-columns: 3fr 1fr auto; gap: 10px;">
+                        <input type="text" id="expDesc" class="form-control" placeholder="سبب المصروف..." style="margin-bottom:0;">
+                        <input type="number" id="expAmount" class="form-control" placeholder="المبلغ بالدينار..." style="margin-bottom:0;">
+                        <button class="btn-custom" style="width: auto; padding: 0 20px;" onclick="addExpense()">إضافة مصروف</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- القسم الخامس: الطلبات -->
+            <div id="ordersSection" class="content-section">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>رقم الطاولة</th>
+                            <th>الطلبات والكميات المسجلة</th>
+                            <th>المبلغ الإجمالي</th>
+                            <th>الحالة</th>
+                        </tr>
+                    </thead>
+                    <tbody id="activeOrdersTableBody">
+                        <tr><td colspan="4" style="text-align: center; color: var(--text-muted);">لا توجد طلبات نشطة حالياً.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const correctUser = "abood2003";
+        let tablesData = {}; 
+        let activeTableId = null;
+        let totalRevenue = 0;   
+        let totalExpenses = 0;  
+        let expensesList = [];  
+        let menuItems = [];
+
+        function sanitizeInput(str) {
+            return String(str).replace(/&/g, "&amp;")
+                              .replace(/</g, "&lt;")
+                              .replace(/>/g, "&gt;")
+                              .replace(/"/g, "&quot;")
+                              .replace(/'/g, "&#039;");
+        }
+
+        function playBeepSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.value = 587.33;
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.3);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            } catch(e) {}
+        }
+
+        // --- ميزة رقم 3: تحميل وحفظ البيانات الدائمة عبر LocalStorage ---
+        function loadDataFromStorage() {
+            const savedMenu = localStorage.getItem('abood_coffee_menu');
+            if (savedMenu) {
+                menuItems = JSON.parse(savedMenu);
+            } else {
+                menuItems = [
+                    { name: "إسبرسو عبود الخاص", type: "مشروبات ساخنة", price: 3000 },
+                    { name: "لاتيه مثلج", type: "مشروبات باردة", price: 4000 },
+                    { name: "نارجيلة تفاحتين فاخر", type: "نراجيل ومعسلات", price: 6000 },
+                    { name: "نارجيلة ليمون النعناع", type: "نراجيل ومعسلات", price: 6000 }
+                ];
+            }
+
+            const savedTables = localStorage.getItem('abood_coffee_tables');
+            if (savedTables) {
+                tablesData = JSON.parse(savedTables);
+            } else {
+                for(let i = 1; i <= 25; i++) { tablesData[i] = []; }
+            }
+
+            const savedRevenue = localStorage.getItem('abood_coffee_revenue');
+            if (savedRevenue) totalRevenue = parseFloat(savedRevenue);
+
+            const savedExpensesList = localStorage.getItem('abood_coffee_expenses');
+            if (savedExpensesList) expensesList = JSON.parse(savedExpensesList);
+
+            const savedTotalExpenses = localStorage.getItem('abood_coffee_total_expenses');
+            if (savedTotalExpenses) totalExpenses = parseFloat(savedTotalExpenses);
+        }
+
+        function saveDataToStorage() {
+            localStorage.setItem('abood_coffee_menu', JSON.stringify(menuItems));
+            localStorage.setItem('abood_coffee_tables', JSON.stringify(tablesData));
+            localStorage.setItem('abood_coffee_revenue', totalRevenue);
+            localStorage.setItem('abood_coffee_expenses', JSON.stringify(expensesList));
+            localStorage.setItem('abood_coffee_total_expenses', totalExpenses);
+        }
+
+        window.onload = function() {
+            loadDataFromStorage();
+
+            const grid = document.getElementById('tablesGridContainer');
+            grid.innerHTML = '';
+            for(let i = 1; i <= 25; i++) {
+                const card = document.createElement('div');
+                card.className = 'table-card';
+                card.id = `table-card-${i}`;
+                
+                let isBusy = tablesData[i] && tablesData[i].length > 0;
+                card.innerHTML = `
+                    <h4>طاولة (${i})</h4>
+                    <span id="status-${i}" class="table-status ${isBusy ? 'status-busy' : 'status-free'}">${isBusy ? 'مشغولة' : 'شاغرة'}</span>
+                `;
+                card.onclick = () => openTableModal(i);
+                grid.appendChild(card);
+            }
+            updateMenuUI();
+            updateExpensesUI();
+            updateFinancialStats();
+        };
+
+        function handleAuthLogin(event) {
+            event.preventDefault();
+            const rawInput = document.getElementById('adminInput').value;
+            const val = sanitizeInput(rawInput.trim());
+            const err = document.getElementById('authError');
+
+            if (val === correctUser) {
+                document.getElementById('authScreen').style.display = 'none';
+                document.getElementById('appContainer').style.display = 'flex';
+                playBeepSound();
+            } else {
+                err.style.display = 'block';
+                err.innerText = 'اسم المستخدم غير صحيح!';
+            }
+        }
+
+        function handleLogout() {
+            document.getElementById('appContainer').style.display = 'none';
+            document.getElementById('authScreen').style.display = 'flex';
+            document.getElementById('adminInput').value = '';
+            document.getElementById('authError').style.display = 'none';
+        }
+
+        function switchTab(tabName, element) {
+            document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
+            element.classList.add('active');
+            document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active-section'));
+
+            const titleMap = {
+                'home': 'لوحة التحكم الرئيسية',
+                'tables': 'إدارة طاولات المقهى (25 طاولة)',
+                'products': 'تعديل قائمة المنيو (المشروبات والنراجيل)',
+                'expenses': 'إدارة المصروفات النثرية وصافي الأرباح',
+                'orders': 'متابعة طلبات العملاء النشطة'
+            };
+
+            document.getElementById('pageTitle').innerText = titleMap[tabName];
+            document.getElementById(tabName + 'Section').classList.add('active-section');
+            
+            if(tabName === 'orders') {
+                updateActiveOrdersView();
+            }
+        }
+
+        function updateMenuUI() {
+            const tbody = document.getElementById('menuTableBody');
+            const selectBox = document.getElementById('itemSelect');
+
+            tbody.innerHTML = '';
+            selectBox.innerHTML = '';
+
+            menuItems.forEach((item, index) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.type}</td>
+                        <td>${item.price.toLocaleString()} د.ع</td>
+                        <td><button class="del-btn" onclick="deleteMenuItem(${index})">حذف</button></td>
+                    </tr>
+                `;
+                selectBox.innerHTML += `<option value="${index}">${item.name} - ${item.price.toLocaleString()} د.ع</option>`;
+            });
+            saveDataToStorage();
+        }
+
+        function addNewProduct() {
+            const name = sanitizeInput(document.getElementById('newProdName').value.trim());
+            const type = sanitizeInput(document.getElementById('newProdType').value.trim());
+            const price = parseFloat(document.getElementById('newProdPrice').value);
+
+            if (!name || isNaN(price)) {
+                alert('يرجى إدخال اسم الصنف والسعر بشكل صحيح.');
+                return;
+            }
+
+            menuItems.push({ name, type, price });
+            document.getElementById('newProdName').value = '';
+            document.getElementById('newProdPrice').value = '';
+            updateMenuUI();
+        }
+
+        function deleteMenuItem(index) {
+            menuItems.splice(index, 1);
+            updateMenuUI();
+        }
+
+        function openTableModal(tableNum) {
+            activeTableId = tableNum;
+            document.getElementById('modalTableTitle').innerText = `إدارة طلبات طاولة رقم (${tableNum})`;
+            updateModalOrderList();
+            document.getElementById('tableModal').style.display = 'flex';
+        }
+
+        function closeTableModal() {
+            document.getElementById('tableModal').style.display = 'none';
+        }
+
+        function addDrinkToTable() {
+            if (!activeTableId) return;
+            const selectBox = document.getElementById('itemSelect');
+            const selectedIndex = selectBox.value;
+            if(selectedIndex === "") return;
+
+            const chosenItem = menuItems[selectedIndex];
+            const existing = tablesData[activeTableId].find(i => i.name === chosenItem.name);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                tablesData[activeTableId].push({ name: chosenItem.name, price: chosenItem.price, qty: 1 });
+            }
+
+            const statusSpan = document.getElementById(`status-${activeTableId}`);
+            statusSpan.className = 'table-status status-busy';
+            statusSpan.innerText = 'مشغولة';
+
+            playBeepSound();
+            updateModalOrderList();
+            updateFinancialStats();
+            saveDataToStorage();
+        }
+
+        function changeItemQty(itemIndex, amount) {
+            if (!activeTableId) return;
+            const item = tablesData[activeTableId][itemIndex];
+            item.qty += amount;
+
+            if (item.qty <= 0) {
+                tablesData[activeTableId].splice(itemIndex, 1);
+            }
+
+            if (tablesData[activeTableId].length === 0) {
+                const statusSpan = document.getElementById(`status-${activeTableId}`);
+                statusSpan.className = 'table-status status-free';
+                statusSpan.innerText = 'شاغرة';
+            }
+
+            updateModalOrderList();
+            updateFinancialStats();
+            saveDataToStorage();
+        }
+
+        function updateModalOrderList() {
+            const listDiv = document.getElementById('modalOrderList');
+            const totalPriceSpan = document.getElementById('modalTotalPrice');
+            const items = tablesData[activeTableId];
+
+            if (items.length === 0) {
+                listDiv.innerHTML = 'لا توجد طلبات مسجلة بعد.';
+                totalPriceSpan.innerText = '0 د.ع';
+            } else {
+                let html = '';
+                let total = 0;
+                items.forEach((item, index) => {
+                    let itemTotal = item.price * item.qty;
+                    html += `
+                        <div class="order-row-item">
+                            <div>
+                                <strong>${item.name}</strong> (${item.price.toLocaleString()} د.ع)
+                                <div style="font-size:11px; color:var(--primary);">الإجمالي: ${itemTotal.toLocaleString()} د.ع</div>
+                            </div>
+                            <div class="qty-controls">
+                                <button class="qty-btn" onclick="changeItemQty(${index}, -1)">-</button>
+                                <span style="font-weight:bold; min-width:20px; text-align:center;">${item.qty}</span>
+                                <button class="qty-btn" onclick="changeItemQty(${index}, 1)">+</button>
+                                <button class="del-btn" style="margin-right:6px;" onclick="removeItemCompletely(${index})">حذف</button>
+                            </div>
+                        </div>
+                    `;
+                    total += itemTotal;
+                });
+                listDiv.innerHTML = html;
+                totalPriceSpan.innerText = total.toLocaleString() + ' د.ع';
+            }
+        }
+
+        function removeItemCompletely(itemIndex) {
+            if (!activeTableId) return;
+            tablesData[activeTableId].splice(itemIndex, 1);
+
+            if (tablesData[activeTableId].length === 0) {
+                const statusSpan = document.getElementById(`status-${activeTableId}`);
+                statusSpan.className = 'table-status status-free';
+                statusSpan.innerText = 'شاغرة';
+            }
+
+            updateModalOrderList();
+            updateFinancialStats();
+            saveDataToStorage();
+        }
+
+        function checkoutTable() {
+            if (!activeTableId) return;
+            const items = tablesData[activeTableId];
+            if (items.length === 0) {
+                alert('لا توجد طلبات على هذه الطاولة لتحصيل حسابها.');
+                return;
+            }
+
+            let tableTotal = items.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            totalRevenue += tableTotal;
+
+            tablesData[activeTableId] = [];
+            const statusSpan = document.getElementById(`status-${activeTableId}`);
+            statusSpan.className = 'table-status status-free';
+            statusSpan.innerText = 'شاغرة';
+
+            closeTableModal();
+            updateFinancialStats();
+            saveDataToStorage();
+            playBeepSound();
+            alert(`تم إغلاق حساب الطاولة بنجاح وتحصيل مبلغ ${tableTotal.toLocaleString()} د.ع للخزينة.`);
+        }
+
+        function addExpense() {
+            const desc = sanitizeInput(document.getElementById('expDesc').value.trim());
+            const amount = parseFloat(document.getElementById('expAmount').value);
+
+            if (!desc || isNaN(amount) || amount <= 0) {
+                alert('يرجى إدخال سبب المصروف والمبلغ بشكل صحيح.');
+                return;
+            }
+
+            expensesList.push({ desc, amount });
+            totalExpenses += amount;
+
+            document.getElementById('expDesc').value = '';
+            document.getElementById('expAmount').value = '';
+
+            updateExpensesUI();
+            updateFinancialStats();
+        }
+
+        function deleteExpense(index) {
+            totalExpenses -= expensesList[index].amount;
+            expensesList.splice(index, 1);
+            updateExpensesUI();
+            updateFinancialStats();
+        }
+
+        function updateExpensesUI() {
+            const tbody = document.getElementById('expensesTableBody');
+            tbody.innerHTML = '';
+
+            if (expensesList.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: var(--text-muted);">لا توجد مصروفات مسجلة اليوم.</td></tr>`;
+                saveDataToStorage();
+                return;
+            }
+
+            expensesList.forEach((exp, index) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${exp.desc}</td>
+                        <td>${exp.amount.toLocaleString()} د.ع</td>
+                        <td><button class="del-btn" onclick="deleteExpense(${index})">حذف</button></td>
+                    </tr>
+                `;
+            });
+            saveDataToStorage();
+        }
+
+        function updateFinancialStats() {
+            let activeCount = 0;
+            for (let i = 1; i <= 25; i++) {
+                if (tablesData[i] && tablesData[i].length > 0) activeCount++;
+            }
+
+            let netProfit = totalRevenue - totalExpenses;
+
+            document.getElementById('activeOrdersCount').innerText = activeCount;
+            document.getElementById('totalRevenueDisplay').innerText = totalRevenue.toLocaleString() + ' د.ع';
+            document.getElementById('totalExpensesDisplay').innerText = totalExpenses.toLocaleString() + ' د.ع';
+            document.getElementById('netProfitDisplay').innerText = netProfit.toLocaleString() + ' د.ع';
+        }
+
+        function updateActiveOrdersView() {
+            const tbody = document.getElementById('activeOrdersTableBody');
+            tbody.innerHTML = '';
+
+            let hasOrders = false;
+            for (let i = 1; i <= 25; i++) {
+                if (tablesData[i] && tablesData[i].length > 0) {
+                    hasOrders = true;
+                    let summaryNames = tablesData[i].map(item => `${item.name} (×${item.qty})`).join(' + ');
+                    let tableTotal = tablesData[i].reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>طاولة (${i})</td>
+                            <td>${summaryNames}</td>
+                            <td>${tableTotal.toLocaleString()} د.ع</td>
+                            <td style="color: #ff9800;">نشطة بالمقهى</td>
+                        </tr>
+                    `;
+                }
+            }
+
+            if (!hasOrders) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">لا توجد طلبات نشطة حالياً.</td></tr>`;
+            }
+        }
+
+        // --- ميزة رقم 4: تصدير التقرير إلى Excel (CSV) ---
+        function exportReportExcel() {
+            let netProfit = totalRevenue - totalExpenses;
+            let csvContent = "\uFEFF"; // لدعم اللغة العربية في ملفات الكسيل
+            csvContent += "تقرير كوفي عبود المالي\n\n";
+            csvContent += `إجمالي الإيرادات,${totalRevenue} د.ع\n`;
+            csvContent += `إجمالي المصروفات,${totalExpenses} د.ع\n`;
+            csvContent += `صافي الربح الحقيقي,${netProfit} د.ع\n\n`;
+            csvContent += "تفاصيل المصروفات النثرية:\n";
+            csvContent += "البيان,المبلغ\n";
+
+            if (expensesList.length === 0) {
+                csvContent += "لا توجد مصروفات مسجلة,0\n";
+            } else {
+                expensesList.forEach(e => {
+                    csvContent += `"${e.desc}",${e.amount}\n`;
+                });
+            }
+
+            const encodedUri = encodeURI("data:text/csv;charset=utf-8," + csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "Abood_Coffee_Report.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
 </body>
 </html>
