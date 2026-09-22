@@ -3,1303 +3,380 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>البوابة الأكاديمية الشاملة لطلاب القانون</title>
-    <!-- استيراد الخطوط -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700;900&family=Readex+Pro:wght@400;600&family=Reem+Kufi:wght@400;700&display=swap" rel="stylesheet">
-    <!-- مكتبات التصدير -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <!-- ترويسات الأمان والحماية -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+
+    <title>عبدالرحمن وليد هاشم - السيرة الذاتية</title>
+    <!-- استيراد خط تجوال العربي -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <!-- مكتبة الأيقونات FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+            --text-muted: #7f8c8d;
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            --border-color: #e5e7eb;
+            --input-bg: #f9fafb;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            --skill-bg: #ede9fe;
+            --skill-color: #6d28d9;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --gradient: linear-gradient(135deg, #4338ca 0%, #6d28d9 100%);
+            --border-color: #334155;
+            --input-bg: #0f172a;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            --skill-bg: #312e81;
+            --skill-color: #a5b4fc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
 
         body {
-            background-color: #0f172a;
-            color: #f8fafc;
-            display: flex;
-            min-height: 100vh;
-            font-family: 'Tajawal', sans-serif;
-            flex-direction: row;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
         }
 
-        /* نافذة تسجيل الدخول وحماية المنصة (Modal) */
-        #auth-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(11, 15, 25, 0.98); z-index: 9999;
-            display: flex; justify-content: center; align-items: center; padding: 15px;
-        }
-        .auth-card {
-            background: #1e293b; padding: 25px; border-radius: 14px; width: 100%; max-width: 420px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6); border: 1px solid #334155; text-align: center;
-        }
-        .auth-card h2 { color: #38bdf8; font-size: 1.3rem; margin-bottom: 8px; }
-        .auth-card p { font-size: 0.8rem; color: #94a3b8; margin-bottom: 20px; line-height: 1.4; }
-        .auth-toggle-btn {
-            background: none; border: none; color: #38bdf8; font-size: 0.75rem;
-            cursor: pointer; margin-top: 15px; text-decoration: underline; font-weight: bold;
-        }
-
-        /* لوحة التحكم الجانبية */
-        .control-panel {
-            width: 510px;
-            background: #1e293b;
-            padding: 15px;
-            box-shadow: -4px 0 25px rgba(0,0,0,0.3);
-            overflow-y: auto;
-            max-height: 100vh;
+        /* شريط التنقل العلوي */
+        nav {
             position: fixed;
             top: 0;
-            right: 0;
-            z-index: 100;
-            border-left: 1px solid #334155;
-            display: none; 
+            left: 0;
+            width: 100%;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
         }
 
-        .site-brand-header {
-            background: linear-gradient(135deg, #0284c7, #1e3a8a);
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-            margin-bottom: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-        .site-brand-header h1 { font-size: 0.9rem; color: #ffffff; margin-bottom: 2px; }
-        .site-brand-header p { font-size: 0.7rem; color: #38bdf8; font-weight: bold; }
-
-        /* حقوق المبرمج */
-        .dev-credit {
-            font-size: 0.65rem;
-            color: #38bdf8;
-            margin-top: 6px;
-            border-top: 1px dashed rgba(56, 189, 248, 0.3);
-            padding-top: 4px;
-            font-weight: bold;
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary);
         }
 
-        /* نظام الأقسام الرئيسية (Navigation Tabs) */
-        .main-nav-tabs {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 4px;
-            background: #0f172a;
-            padding: 4px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border: 1px solid #334155;
+        .nav-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
         }
-        .nav-tab-btn {
-            background: #1e293b;
-            border: none;
-            color: #94a3b8;
-            font-size: 0.65rem;
-            padding: 8px 4px;
-            border-radius: 6px;
+
+        .theme-toggle {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             cursor: pointer;
-            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: transform 0.2s;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* الواجهة الرئيسية */
+        header {
+            background: var(--gradient);
+            color: white;
+            padding: 140px 20px 80px;
             text-align: center;
-            transition: all 0.2s;
-            font-family: 'Tajawal', sans-serif;
+            position: relative;
+            clip-path: ellipse(150% 100% at 50% 0%);
         }
-        .nav-tab-btn:hover { color: #fff; background: #334155; }
-        .nav-tab-btn.active { background: #0284c7; color: white; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4); }
 
-        /* محتوى الأقسام */
-        .app-section-content { display: none; }
-        .app-section-content.active { display: block; }
-
-        .control-panel h2 {
-            font-size: 1.05rem;
+        header h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
             margin-bottom: 10px;
-            color: #38bdf8;
-            border-bottom: 2px solid #38bdf8;
-            padding-bottom: 4px;
         }
 
-        .section-title {
-            font-size: 0.78rem;
-            font-weight: bold;
-            color: #94a3b8;
-            margin: 10px 0 4px 0;
-            border-right: 3px solid #38bdf8;
-            padding-right: 8px;
-            background: #0f172a;
-            padding-top: 3px;
-            padding-bottom: 3px;
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
         }
 
-        .form-group { margin-bottom: 7px; text-align: right; }
-        .form-group label { display: block; font-size: 0.73rem; font-weight: 600; margin-bottom: 2px; color: #cbd5e1; }
-        .form-group input, .form-group select, .form-group textarea { 
-            width: 100%; padding: 5px 8px; border: 1px solid #475569; border-radius: 6px; font-size: 0.78rem; background: #0f172a; color: #fff;
+        /* المحتوى الرئيسي */
+        .container {
+            max-width: 850px;
+            margin: -40px auto 50px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+        }
+
+        .card h2 {
+            color: var(--text-color);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        .card h2 i {
+            color: var(--primary);
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        /* شبكة المهارات */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .skill-item {
+            background: var(--skill-bg);
+            color: var(--skill-color);
+            padding: 14px 18px;
+            border-radius: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1rem;
+        }
+
+        /* أزرار التواصل */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .social-btn {
+            background: #E1306C;
+            color: white;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(225, 48, 108, 0.3);
+            transition: opacity 0.3s, transform 0.2s;
+        }
+
+        .social-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* نموذج الاتصال */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-top: 15px;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            background: var(--input-bg);
+            color: var(--text-color);
             font-family: 'Tajawal', sans-serif;
-        }
-        .form-group input[type="color"] { padding: 2px; height: 30px; cursor: pointer; }
-        .form-group input:focus, .form-group select:focus { border-color: #38bdf8; outline: none; background: #1e293b; }
-
-        .color-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .theme-btns, .border-btns { display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; margin-bottom: 5px; }
-        .theme-btn, .border-style-btn {
-            padding: 6px; border: 2px solid #475569; background: #0f172a;
-            cursor: pointer; text-align: center; border-radius: 6px; transition: all 0.2s;
-            font-size: 0.72rem; font-weight: bold; color: #cbd5e1;
-        }
-        .theme-btn:hover, .border-style-btn:hover { border-color: #64748b; background: #1e293b; }
-        .theme-btn.active, .border-style-btn.active { border-color: #38bdf8; background-color: rgba(56, 189, 248, 0.15); color: #38bdf8; }
-
-        /* ستايل بنك العناوين القانونية المطور بفروع */
-        .titles-bank-box {
-            background: #0f172a; border: 1px solid #334155; border-radius: 6px; padding: 8px; max-height: 380px; overflow-y: auto; margin-top: 5px;
-        }
-        .category-tabs { display: flex; gap: 4px; margin-bottom: 6px; flex-wrap: wrap; }
-        .cat-tab {
-            background: #1e293b; border: 1px solid #475569; color: #94a3b8; font-size: 0.62rem; padding: 4px 6px; border-radius: 4px; cursor: pointer; font-weight: bold;
-        }
-        .cat-tab.active { background: #0284c7; color: white; border-color: #0284c7; }
-
-        .branch-container { margin-bottom: 8px; background: #162032; border: 1px solid #334155; border-radius: 5px; padding: 6px; }
-        .branch-title { font-size: 0.72rem; font-weight: bold; color: #38bdf8; margin-bottom: 4px; border-bottom: 1px dashed #334155; padding-bottom: 2px; }
-        
-        .topic-item {
-            font-size: 0.7rem; background: #1e293b; padding: 5px 7px; margin-bottom: 3px; border-radius: 4px;
-            display: flex; justify-content: space-between; align-items: center; border-right: 2px solid #38bdf8;
-        }
-        .topic-item span { flex-grow: 1; margin-left: 8px; line-height: 1.3; color: #e2e8f0; }
-        .use-title-btn {
-            background: #16a34a; color: white; border: none; padding: 3px 6px; border-radius: 3px; font-size: 0.62rem; cursor: pointer; white-space: nowrap; font-weight: bold;
-        }
-        .use-title-btn:hover { background: #15803d; }
-
-        /* قسم المساعد الأكاديمي المطور */
-        .assistant-card {
-            background: #0f172a; border: 1px solid #334155; border-radius: 6px; padding: 10px; margin-bottom: 8px;
-        }
-        .assistant-card h4 { font-size: 0.8rem; color: #38bdf8; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center; }
-        .assistant-card p { font-size: 0.72rem; color: #94a3b8; line-height: 1.4; margin-bottom: 6px; }
-        .copy-snippet-btn {
-            background: #0284c7; color: white; border: none; padding: 3px 8px; border-radius: 4px; font-size: 0.68rem; cursor: pointer; font-weight: bold;
-        }
-        .copy-snippet-btn:hover { background: #0369a1; }
-
-        .ai-tool-box {
-            background: #162032; border: 1px solid #38bdf8; border-radius: 6px; padding: 10px; margin-bottom: 10px;
-        }
-        .ai-tool-box h3 { font-size: 0.82rem; color: #38bdf8; margin-bottom: 6px; }
-        .ai-output-box {
-            background: #0b0f19; border: 1px dashed #475569; padding: 8px; border-radius: 5px; font-size: 0.72rem; color: #cbd5e1; max-height: 130px; overflow-y: auto; margin-top: 6px; line-height: 1.4; white-space: pre-line;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
         }
 
-        /* لوحة تحكم المدير والإحصائيات */
-        .admin-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
-        .stat-card { background: #0f172a; border: 1px solid #334155; padding: 10px; border-radius: 8px; text-align: center; }
-        .stat-card h4 { font-size: 0.7rem; color: #94a3b8; margin-bottom: 4px; }
-        .stat-card span { font-size: 1.1rem; font-weight: bold; color: #38bdf8; }
-
-        .admin-user-row { background: #162032; padding: 8px; border-radius: 6px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; font-size: 0.73rem; border: 1px solid #334155; }
-        .btn-approve { background: #16a34a; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.68rem; font-weight: bold; }
-        .btn-delete { background: #dc2626; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.68rem; font-weight: bold; }
-
-        .actions-box { display: flex; gap: 5px; margin-top: 12px; }
-        .btn-action {
-            flex: 1; padding: 8px; border: none; border-radius: 6px; font-size: 0.78rem; font-weight: bold; cursor: pointer; transition: background 0.3s; color: white; text-align: center;
-        }
-        .btn-pdf { background-color: #dc2626; }
-        .btn-pdf:hover { background-color: #b91c1c; }
-        .btn-download { background-color: #0284c7; }
-        .btn-download:hover { background-color: #0369a1; }
-        .btn-save { background-color: #16a34a; width: 100%; margin-top: 8px; }
-        .btn-save:hover { background-color: #15803d; }
-
-        /* منطقة المعاينة (ورقة A4) - مخفية افتراضياً */
-        .preview-container {
-            flex-grow: 1; margin-right: 510px; display: flex; justify-content: center;
-            align-items: center; padding: 25px; background-color: #0b0f19; overflow: auto;
-            display: none; /* إخفاء تام للموقع والمعاينة */
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--primary);
         }
 
-        .a4-page {
-            width: 210mm; height: 297mm; min-width: 210mm; background: #ffffff; padding: 22mm;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column;
-            justify-content: space-between; text-align: center; position: relative;
-            overflow: hidden; color: #111;
+        .form-group textarea {
+            resize: vertical;
+            height: 130px;
         }
 
-        .watermark-bg {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 350px; height: 350px; opacity: 0.04; background-size: contain; background-repeat: no-repeat;
-            background-position: center; pointer-events: none; z-index: 1;
+        .submit-btn {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+            transition: opacity 0.3s, transform 0.2s;
         }
 
-        .border-modern-double { border: 4px solid #1e3a8a; outline: 2px solid #1e3a8a; outline-offset: -8px; }
-        .border-modern-glow { border: 3px solid #1e3a8a; box-shadow: inset 0 0 0 6px #ffffff, inset 0 0 0 9px rgba(30, 58, 138, 0.3); }
-        .border-modern-framed { border: 2px solid #1e3a8a; position: relative; }
-        .border-modern-framed::after { content: ''; position: absolute; top: 6px; right: 6px; bottom: 6px; left: 6px; border: 1px solid #1e3a8a; pointer-events: none; opacity: 0.7; }
-        .border-clean-minimal { border: 1.5px solid #1e3a8a; }
+        .submit-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
 
-        .corner-ornament { position: absolute; width: 25px; height: 25px; border-color: #1e3a8a; border-style: solid; z-index: 3; display: none; }
-        .corner-tl { top: 10px; right: 10px; border-width: 3px 3px 0 0; }
-        .corner-tr { top: 10px; left: 10px; border-width: 3px 0 0 3px; }
-        .corner-bl { bottom: 10px; right: 10px; border-width: 0 3px 3px 0; }
-        .corner-br { bottom: 10px; left: 10px; border-width: 0 0 3px 3px; }
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+        }
 
-        .font-amiri { font-family: 'Amiri', serif; }
-        .font-cairo { font-family: 'Cairo', sans-serif; }
-        .font-tajawal { font-family: 'Tajawal', sans-serif; }
-        .font-readex { font-family: 'Readex Pro', sans-serif; }
-        .font-kufi { font-family: 'Reem Kufi', sans-serif; }
-
-        .align-right { text-align: right !important; }
-        .align-center { text-align: center !important; }
-        .align-left { text-align: left !important; }
-
-        .logos-wrapper { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0 10px; z-index: 2; }
-        .logo-box img { max-width: 75px; max-height: 75px; object-fit: contain; display: block; margin: 0 auto; }
-        .logo-placeholder { font-size: 2.2rem; color: #cbd5e1; }
-
-        .header-section h3 { font-size: 1.05rem; font-weight: bold; line-height: 1.4; color: #1e3a8a; }
-        .title-section { padding: 22px 10px; background: #f8fafc; border-top: 2px solid #1e3a8a; border-bottom: 2px solid #1e3a8a; z-index: 2; position: relative; }
-        .title-section h4 { font-size: 0.95rem; margin-bottom: 8px; color: #475569; }
-        
-        .footer-section { display: flex; justify-content: space-between; text-align: right; width: 100%; border-top: 1px solid #cbd5e1; padding-top: 10px; z-index: 2; }
-        .footer-box h5 { font-size: 0.85rem; margin-bottom: 2px; }
-        .footer-box p { margin: 2px 0; font-size: 0.8rem; color: #333; }
-        
-        .signatures-section { display: flex; justify-content: space-around; width: 100%; border-top: 1px dashed #94a3b8; padding-top: 8px; margin-top: 5px; z-index: 2; display: none; font-size: 0.75rem; }
-
-        /* زر تسجيل الخروج / تبديل الحساب المتطور */
-        .logout-btn-box { margin-top: 10px; }
-        .btn-logout { background-color: #ef4444; width: 100%; margin-top: 5px; }
-        .btn-logout:hover { background-color: #dc2626; }
-
-        /* إضافات الاستجابة للشاشات الصغيرة */
-        @media (max-width: 1024px) {
-            body { flex-direction: column; }
-            .control-panel {
-                width: 100% !important;
-                max-height: 55vh;
-                position: relative;
-                border-left: none;
-                border-bottom: 1px solid #334155;
-            }
-            .preview-container {
-                margin-right: 0 !important;
-                width: 100%;
-                padding: 15px;
-                min-height: 45vh;
-            }
+        @media (max-width: 600px) {
+            header h1 { font-size: 2.2rem; }
+            .card { padding: 20px; }
         }
     </style>
 </head>
-<body id="body-container" class="font-amiri">
+<body data-theme="light">
 
-    <!-- نافذة تسجيل الدخول وحماية المنصة بالكامل -->
-    <div id="auth-modal">
-        <div class="auth-card" id="auth-card-box">
-            <h2>بوابة الدخول الأكاديمية المحمية</h2>
-            <p id="auth-subtitle">أدخل اسمك الثلاثي للتسجيل التلقائي، أو انتقل لتسجيل دخول المدير</p>
-
-            <!-- نموذج تسجيل الطالب -->
-            <div id="student-auth-form">
-                <div class="form-group">
-                    <label>الاسم الثلاثي واللقب:</label>
-                    <input type="text" id="input-tri-name" placeholder="مثال: أحمد محمد علي">
-                </div>
-                <button class="btn-action btn-save" onclick="handleStudentRegister()">تسجيل وإنشاء الحساب التلقائي</button>
-            </div>
-
-            <!-- نموذج تسجيل المدير -->
-            <div id="admin-auth-form" style="display: none;">
-                <div class="form-group">
-                    <label>كلمة مرور المدير السرية:</label>
-                    <input type="password" id="input-admin-pass" placeholder="أدخل كلمة المرور الخاصة بالمدير">
-                </div>
-                <button class="btn-action btn-pdf" id="admin-login-btn" onclick="handleAdminLogin()">دخول لوحة تحكم المدير</button>
-                <div id="lockout-timer-box" style="margin-top: 12px; color: #ef4444; font-size: 0.8rem; font-weight: bold; display: none;"></div>
-            </div>
-
-            <button class="auth-toggle-btn" id="toggle-auth-mode" onclick="toggleAuthMode()">تسجيل دخول المدير فقط 🔑</button>
-            <p id="login-error-msg" style="color: #ef4444; font-size: 0.72rem; margin-top: 10px;"></p>
+    <!-- شريط التنقل -->
+    <nav>
+        <div class="nav-logo">عبدالرحمن وليد</div>
+        <div class="nav-controls">
+            <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" title="تغيير المظهر">
+                <i class="fa-solid fa-moon" id="themeIcon"></i>
+            </button>
         </div>
-    </div>
+    </nav>
 
-    <!-- لوحة التحكم -->
-    <div class="control-panel" id="main-control-panel">
-        <div class="site-brand-header">
-            <h1 id="user-welcome-title">البوابة الأكاديمية الشاملة لطلاب القانون</h1>
-            <p>النظام الأكاديمي الرقمي الموحد</p>
-            <div class="dev-credit">تم برمجة الموقع من قبل الطالب عبدالرحمن وليد</div>
+    <!-- الواجهة الرئيسية -->
+    <header>
+        <h1>عبدالرحمن وليد هاشم</h1>
+        <p>خريج دبلوم تقنيات الإدارة القانونية | مطور ويب ومبرمج بوتات تيليجرام</p>
+    </header>
+
+    <div class="container">
+        <!-- نبذة عني -->
+        <div class="card">
+            <h2><i class="fa-solid fa-user-circle"></i> نبذة عني</h2>
+            <p>
+                خريج دبلوم تقنيات الإدارة القانونية من كلية البوليتكنيك في نينوى. أمتلك شغفاً وخبرة واسعة في عالم البرمجة وتطوير التقنيات، حيث أدمج بين دقة الخلفية القانونية والإدارية والابتكار في تطوير الحلول البرمجية والمواقع الإلكترونية المتميزة.
+            </p>
         </div>
 
-        <!-- أزرار التنقل بين الأقسام الرئيسية -->
-        <div class="main-nav-tabs" id="nav-tabs-container">
-            <button class="nav-tab-btn active" onclick="switchMainSection('section-cover', this)">🎨 تصميم الأغلفة</button>
-            <button class="nav-tab-btn" onclick="switchMainSection('section-titles', this)">📚 بنك العناوين</button>
-            <button class="nav-tab-btn" onclick="switchMainSection('section-assistant', this)">💡 مساعد التقارير الذكي</button>
+        <!-- التعليم -->
+        <div class="card">
+            <h2><i class="fa-solid fa-graduation-cap"></i> التعليم الأكاديمي</h2>
+            <p><strong>دبلوم تقنيات الإدارة القانونية</strong></p>
+            <p style="margin-top: 5px;">كلية البوليتكنيك نينوى (الجامعة التقنية الشمالية)</p>
         </div>
 
-        <!-- ================= القسم الأول: تصميم الأغلفة ================= -->
-        <div id="section-cover" class="app-section-content active">
-            <h2>قسم تصميم الأغلفة الأكاديمية</h2>
-
-            <div class="section-title">1. قوالب الألوان الجاهزة</div>
-            <div class="theme-btns">
-                <div class="theme-btn active" onclick="applyPreset('#1e3a8a', '#ffffff', '#f8fafc')">كلاسيكي أزرق</div>
-                <div class="theme-btn" onclick="applyPreset('#78350f', '#fffdfa', '#fffbeb')">عنابي ملكي</div>
-                <div class="theme-btn" onclick="applyPreset('#166534', '#f0fdf4', '#ffffff')">أخضر أكاديمي</div>
-                <div class="theme-btn" onclick="applyPreset('#334155', '#f8fafc', '#e2e8f0')">رمادي هادئ</div>
-            </div>
-
-            <div class="section-title">2. تصاميم الإطارات والزخارف ✨</div>
-            <div class="border-btns">
-                <div class="border-style-btn active" onclick="setModernBorder('border-modern-double', this)">إطار مزدوج فاخر</div>
-                <div class="border-style-btn" onclick="setModernBorder('border-modern-glow', this)">إطار متوهج ناعم</div>
-                <div class="border-style-btn" onclick="setModernBorder('border-modern-framed', this)">إطار هندسي متداخل</div>
-                <div class="border-style-btn" onclick="setModernBorder('border-clean-minimal', this)">إطار مودرن نحيف</div>
-            </div>
-            <div class="form-group" style="margin-top: 6px;">
-                <label><input type="checkbox" id="ornament-toggle" onchange="toggleOrnaments(this)"> تفعيل الزوايا الهندسية الزخرفية</label>
-            </div>
-
-            <div class="section-title">3. تخصيص الألوان والخلفية</div>
-            <div class="color-row">
-                <div class="form-group">
-                    <label>لون الإطارات:</label>
-                    <input type="color" id="picker-border-color" value="#1e3a8a" oninput="updateBorderColor(this.value)">
-                </div>
-                <div class="form-group">
-                    <label>لون خلفية الصفحة:</label>
-                    <input type="color" id="picker-bg-color" value="#ffffff" oninput="updateBgColor(this.value)">
-                </div>
-            </div>
-
-            <div class="section-title">4. الخطوط ومحاذاة النصوص</div>
-            <div class="color-row">
-                <div class="form-group">
-                    <label>نوع الخط العام:</label>
-                    <select id="font-selector" onchange="changeFontFamily(this.value)">
-                        <option value="font-amiri">أميري (Amiri - رسمي)</option>
-                        <option value="font-cairo">كايرو (Cairo - عصري)</option>
-                        <option value="font-tajawal">تجوال (Tajawal - سلس)</option>
-                        <option value="font-kufi">خط الكوفي (Reem Kufi)</option>
-                        <option value="font-readex">ريدكس برو (Readex)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>محاذاة العنوان:</label>
-                    <select id="align-selector" onchange="changeAlignment(this.value)">
-                        <option value="align-center">توسيط (Center)</option>
-                        <option value="align-right">يمين (Right)</option>
-                        <option value="align-left">يسار (Left)</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>حجم خط عنوان البحث:</label>
-                <input type="range" id="input-fontsize" min="1.2" max="2.4" step="0.1" value="1.5" oninput="changeFontSize(this.value)">
-            </div>
-
-            <div class="section-title">5. الشعارات والعلامة المائية</div>
-            <div class="form-group">
-                <label>شعار الجهة الرسمية (يمين):</label>
-                <input type="file" id="input-logo1" accept="image/*" onchange="loadLogo(event, 'logo-box1')">
-            </div>
-            <div class="form-group">
-                <label>شعار الكلية/المعهد (يسار):</label>
-                <input type="file" id="input-logo2" accept="image/*" onchange="loadLogo(event, 'logo-box2')">
-            </div>
-            <div class="form-group">
-                <label>رفع علامة مائية خلفية:</label>
-                <input type="file" id="input-watermark" accept="image/*" onchange="loadWatermark(event)">
-            </div>
-
-            <div class="section-title">6. بيانات المؤسسة والكلية</div>
-            <div class="form-group">
-                <label>الجامعة:</label>
-                <input type="text" id="input-university" value="الجامعة الرسمية المختارة">
-            </div>
-            <div class="form-group">
-                <label>الكلية / المعهد:</label>
-                <input type="text" id="input-college" value="معهد الدراسات القانونية والإدارية">
-            </div>
-            <div class="form-group">
-                <label>القسم:</label>
-                <input type="text" id="input-department" value="قسم الإدارة القانونية">
-            </div>
-
-            <div class="section-title">7. تفاصيل البحث وأسماء الطلبة</div>
-            <div class="form-group">
-                <label>نوع التقرير / المرحلة:</label>
-                <input type="text" id="input-subject" value="بحث تخرج مقدم لنيل شهادة الدبلوم التقني">
-            </div>
-            <div class="form-group">
-                <label>عنوان التقرير:</label>
-                <input type="text" id="input-title" value="أثر التشريعات القانونية في تنظيم المعاملات">
-            </div>
-            <div class="form-group">
-                <label>نوع الدراسة:</label>
-                <input type="text" id="input-study-type" value="الدراسة الصباحية">
-            </div>
-            <div class="form-group">
-                <label>إعداد الطلاب:</label>
-                <textarea id="input-student" rows="2">أحمد محمد علي - نور محمد أحمدي</textarea>
-            </div>
-            <div class="form-group">
-                <label>إشراف الأستاذ:</label>
-                <input type="text" id="input-supervisor" value="د. خالد عبد الرحمن">
-            </div>
-            <div class="form-group">
-                <label>العام الدراسي:</label>
-                <input type="text" id="input-year" value="2025 - 2026">
-            </div>
-
-            <div class="section-title">8. جدول التوقيعات واللجنة</div>
-            <div class="form-group">
-                <label><input type="checkbox" id="signatures-toggle" onchange="toggleSignatures(this)"> إظهار جدول التوقيعات / أعضاء اللجنة</label>
-            </div>
-            <div class="form-group">
-                <label>نص لجنة المناقشة / التوقيعات:</label>
-                <input type="text" id="input-signatures-text" value="رئيس اللجنة: أ.د. سالم عبد الله | المشرف: د. خالد عبد الرحمن">
-            </div>
-
-            <button class="btn-action btn-save" onclick="saveToLocalStorage()">💾 حفظ البيانات بالمتصفح</button>
-
-            <div class="logout-btn-box">
-                <button class="btn-action btn-logout" onclick="logoutSession()">🚪 تسجيل الخروج وتبديل الحساب</button>
-            </div>
-
-            <div class="actions-box">
-                <button class="btn-action btn-pdf" onclick="downloadPDF()">📄 تحميل PDF</button>
-                <button class="btn-action btn-download" onclick="downloadImage()">🖼️ تحميل صورة</button>
+        <!-- المهارات -->
+        <div class="card">
+            <h2><i class="fa-solid fa-code"></i> المهارات والاختصاصات</h2>
+            <div class="skills-grid">
+                <div class="skill-item"><i class="fa-brands fa-html5 fa-lg"></i> HTML / CSS / JavaScript</div>
+                <div class="skill-item"><i class="fa-brands fa-python fa-lg"></i> Python Programming</div>
+                <div class="skill-item"><i class="fa-brands fa-telegram fa-lg"></i> Telegram Bots</div>
+                <div class="skill-item"><i class="fa-solid fa-scale-balanced fa-lg"></i> الإدارة القانونية</div>
             </div>
         </div>
 
-        <!-- ================= القسم الثاني: بنك العناوين الأكاديمية ================= -->
-        <div id="section-titles" class="app-section-content">
-            <h2>بنك العناوين القانونية والإدارية 📚</h2>
-            <p style="font-size: 0.72rem; color: #94a3b8; margin-bottom: 8px;">اختر من الفروع المخصصة واضغط "استخدام للغلاف" لتعبئة عنوان بحثك فوراً.</p>
+        <!-- التواصل -->
+        <div class="card">
+            <h2><i class="fa-solid fa-paper-plane"></i> تواصل معي</h2>
+            <p style="margin-bottom: 20px;">يسعدني تواصلك عبر حسابي على إنستغرام أو مراسلتي بشكل مباشر:</p>
             
-            <div class="category-tabs">
-                <div class="cat-tab active" onclick="switchCategory('admin', this)">الإداري</div>
-                <div class="cat-tab" onclick="switchCategory('constitutional', this)">الدستوري</div>
-                <div class="cat-tab" onclick="switchCategory('criminal', this)">الجنائي</div>
-                <div class="cat-tab" onclick="switchCategory('civil', this)">المدني</div>
-                <div class="cat-tab" onclick="switchCategory('sale', this)">عقد البيع</div>
-                <div class="cat-tab" onclick="switchCategory('execution', this)">التنفيذ</div>
-                <div class="cat-tab" onclick="switchCategory('procedural', this)">أصول المحاكمات</div>
-                <div class="cat-tab" onclick="switchCategory('ebusiness', this)">الأعمال الإلكترونية</div>
-                <div class="cat-tab" onclick="switchCategory('baath', this)">جرائم حزب البعث</div>
-                <div class="cat-tab" onclick="switchCategory('english', this)">الإنجليزية</div>
+            <div class="social-links">
+                <a href="https://www.instagram.com/25ff99?stkn=eHNleHNhNHFyaWoy" target="_blank" class="social-btn">
+                    <i class="fa-brands fa-instagram fa-lg"></i> إنستغرام
+                </a>
             </div>
-            <div class="titles-bank-box" id="titles-container"></div>
-        </div>
 
-        <!-- ================= القسم الثالث: مساعد التقارير الذكي والمطور ================= -->
-        <div id="section-assistant" class="app-section-content">
-            <h2>مساعد التقارير والأبحاث الذكي 💡</h2>
-            <p style="font-size: 0.72rem; color: #94a3b8; margin-bottom: 10px;">أدوات توليد الهياكل، المقدمات، الخاتمة، والنماذج الأكاديمية المصاغة باحترافية تامة.</p>
+            <!-- نموذج الاتصال الآمن والمربوط -->
+            <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
+                <!-- مفتاح الوصول الخاص بك -->
+                <input type="hidden" name="access_key" value="a38b2e14-4ade-4b67-8615-a8164a4beb09">
+                <!-- حقل إضافي مخفي لحماية إضافية من الروبوتات (Spam Protection) -->
+                <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
 
-            <div class="ai-tool-box">
-                <h3>🛠️ مولد هيكل البحث والتقارير</h3>
                 <div class="form-group">
-                    <label>اختر التخصص أو مجال البحث:</label>
-                    <select id="report-field-select">
-                        <option value="admin">القانون الإداري والقرارات</option>
-                        <option value="constitutional">القانون الدستوري والحريات</option>
-                        <option value="criminal">القانون الجنائي والجرائم المستحدثة</option>
-                        <option value="civil">القانون المدني والمعاملات</option>
-                        <option value="ebusiness">إدارة الأعمال الإلكترونية</option>
-                        <option value="baath">جرائم نظام حزب البعث والعدالة الانتقالية</option>
-                    </select>
+                    <input type="text" name="name" placeholder="اسمك الكريم" required>
                 </div>
-                <button class="copy-snippet-btn" style="width: 100%; margin-top: 5px; padding: 6px;" onclick="generateReportStructure()">توليد الهيكل المقترح للبحث</button>
-                <div class="ai-output-box" id="structure-output-box">اضغط على زر التوليد لعرض الهيكل الفصول والمباحث المناسبة...</div>
-            </div>
-
-            <div class="ai-tool-box">
-                <h3>✍️ صياغة مقدمة وخاتمة بحث قانوني</h3>
                 <div class="form-group">
-                    <label>نوع النص المطلوب:</label>
-                    <select id="text-type-select">
-                        <option value="intro">مقدمة بحث أكاديمية عامة (قانونية)</option>
-                        <option value="conclusion">خاتمة استنتاجات وتوصيات بحثية</option>
-                        <option value="methodology">منهجية البحث وحدوده</option>
-                    </select>
+                    <input type="email" name="email" placeholder="البريد الإلكتروني" required>
                 </div>
-                <button class="copy-snippet-btn" style="width: 100%; margin-top: 5px; padding: 6px;" onclick="generateLegalTemplateText()">نسخ النموذج المصاغ فوراً</button>
-                <div class="ai-output-box" id="template-output-box">سيظهر النموذج هنا جاهزاً للنسخ والاستخدام في التقرير...</div>
-            </div>
-
-            <div class="assistant-card">
-                <h4>نموذج صفحة الإهداء <button class="copy-snippet-btn" onclick="copySnippet('إلى من بلغ الرسالة وأدى الأمانة، إلى من حملوا طهارة القلب ونقاء السريرة.. إلى عائلتي الكريمة وإلى أساتذتي الأفاضل، أهدي هذا العمل المتواضع.')">نسخ</button></h4>
-                <p>"إلى من بلغ الرسالة وأدى الأمانة... أهدي هذا العمل المتواضع."</p>
-            </div>
-
-            <div class="assistant-card">
-                <h4>نموذج الشكر والتقدير <button class="copy-snippet-btn" onclick="copySnippet('نتقدم بخالص الشكر والتقدير إلى رئاسة القسم العلمي، وإلى أستاذنا المشرف الفاضل لما قدموه لنا من توجيهات سديدة ودعم علمي متواصل لإنجاز هذا البحث.')">نسخ</button></h4>
-                <p>صياغة جاهزة لشكر المشرف والقسم العلمي على المساعدة.</p>
-            </div>
-
-            <div class="assistant-card">
-                <h4>دليل التوثيق والاقتباس (طريقة APA / القانونية) <button class="copy-snippet-btn" onclick="copySnippet('قاعدة توثيق الكتب: اسم المؤلف، (سنة النشر)، عنوان الكتاب، دار النشر، مكان النشر.\nقاعدة توثيق البحوث: اسم الباحث، (السنة)، عنوان البحث، مجلة الكلية، العدد، الصفحة.')">نسخ القواعد</button></h4>
-                <p>صيغة توثيق المصادر والمراجع القانونية في نهاية البحث.</p>
-            </div>
-        </div>
-
-        <!-- ================= القسم الرابع: لوحة تحكم المدير الخاصة ================= -->
-        <div id="section-admin-panel" class="app-section-content">
-            <h2>لوحة تحكم المدير الخاصة 🛠️</h2>
-            <p style="font-size: 0.72rem; color: #94a3b8; margin-bottom: 10px;">إحصائيات الأعضاء وإدارة طلبات الانضمام للنظام:</p>
-            
-            <div class="admin-stats-grid">
-                <div class="stat-card">
-                    <h4>إجمالي الأعضاء</h4>
-                    <span id="stat-total-users">0</span>
+                <div class="form-group">
+                    <textarea name="message" placeholder="اكتب رسالتك هنا..." required></textarea>
                 </div>
-                <div class="stat-card">
-                    <h4>بانتظار الموافقة</h4>
-                    <span id="stat-pending-users" style="color: #f59e0b;">0</span>
-                </div>
-                <div class="stat-card">
-                    <h4>المعتمدون</h4>
-                    <span id="stat-approved-users" style="color: #10b981;">0</span>
-                </div>
-            </div>
-
-            <div class="section-title">قائمة الأعضاء المسجلين</div>
-            <div id="admin-users-list-container" style="max-height: 350px; overflow-y: auto; margin-top: 8px;"></div>
-        </div>
-
-    </div>
-
-    <!-- نافذة المعاينة الحية -->
-    <div class="preview-container" id="main-preview-container">
-        <div class="a4-page border-modern-double" id="capture-area">
-            <div class="watermark-bg" id="watermark-layer"></div>
-
-            <div class="corner-ornament corner-tl" id="c-tl"></div>
-            <div class="corner-ornament corner-tr" id="c-tr"></div>
-            <div class="corner-ornament corner-bl" id="c-bl"></div>
-            <div class="corner-ornament corner-br" id="c-br"></div>
-
-            <div class="header-section">
-                <div class="logos-wrapper">
-                    <div class="logo-box" id="logo-box1">
-                        <div class="logo-placeholder">🏛️</div>
-                    </div>
-                    <div>
-                        <h3 id="preview-university">الجامعة الرسمية المختارة</h3>
-                        <h3 id="preview-college">معهد الدراسات القانونية والإدارية</h3>
-                        <h3 id="preview-department">قسم الإدارة القانونية</h3>
-                    </div>
-                    <div class="logo-box" id="logo-box2">
-                        <div class="logo-placeholder">🎓</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="title-section align-center" id="title-section-box">
-                <h4 id="preview-subject">بحث تخرج مقدم لنيل شهادة الدبلوم التقني</h4>
-                <h1 id="preview-title" style="font-size: 1.5rem; font-weight: bold;">أثر التشريعات القانونية في تنظيم المعاملات</h1>
-                <p id="preview-study-type" style="margin-top: 8px; font-size: 0.9rem; font-weight: bold; opacity: 0.85;">الدراسة الصباحية</p>
-            </div>
-
-            <div>
-                <div class="footer-section">
-                    <div class="footer-box">
-                        <h5>إعداد الطلاب:</h5>
-                        <p id="preview-student" style="white-space: pre-line;">أحمد محمد علي - نور محمد أحمدي</p>
-                    </div>
-                    <div class="footer-box">
-                        <h5>إشراف الأستاذ:</h5>
-                        <p id="preview-supervisor">د. خالد عبد الرحمن</p>
-                    </div>
-                    <div class="footer-box" style="text-align: left;">
-                        <h5>العام الدراسي:</h5>
-                        <p id="preview-year">2025 - 2026</p>
-                    </div>
-                </div>
-                <div class="signatures-section" id="preview-signatures-box">
-                    <span id="preview-signatures-text">رئيس اللجنة: أ.د. سالم عبد الله | المشرف: د. خالد عبد الرحمن</span>
-                </div>
-            </div>
+                <button type="submit" class="submit-btn"><i class="fa-solid fa-envelope-circle-check"></i> إرسال الرسالة</button>
+            </form>
         </div>
     </div>
 
-    <!-- الجافاسكريبت والوظائف المتكاملة -->
+    <footer>
+        <p>جميع الحقوق محفوظة &copy; 2026 - عبدالرحمن وليد هاشم</p>
+    </footer>
+
     <script>
-        let isAdminMode = false;
-        const ADMIN_PASSWORD_CORRECT = "aboode2004202326";
-        const BASE_LOCKOUT_TIME = 10 * 60; // 10 دقائق بالثواني
-
-        window.addEventListener('DOMContentLoaded', () => {
-            checkAdminLockout();
-            checkSessionApproval();
-        });
-
-        function checkSessionApproval() {
-            const activeUser = localStorage.getItem('active_approved_user');
-            if (activeUser) {
-                const userData = JSON.parse(activeUser);
-                grantStudentAccess(userData);
-            }
-        }
-
-        function logoutSession() {
-            if (confirm('هل أنت متأكد من تسجيل الخروج؟ سيتم مسح البروفيسور الحالي.')) {
-                localStorage.removeItem('active_approved_user');
-                location.reload();
-            }
-        }
-
-        function checkAdminLockout() {
-            const lockoutUntil = localStorage.getItem('admin_lockout_until');
-            if (lockoutUntil) {
-                const now = Date.now();
-                if (now < parseInt(lockoutUntil)) {
-                    startLockoutTimer(parseInt(lockoutUntil));
-                } else {
-                    localStorage.removeItem('admin_lockout_until');
-                }
-            }
-        }
-
-        function startLockoutTimer(targetTime) {
-            const passInput = document.getElementById('input-admin-pass');
-            const loginBtn = document.getElementById('admin-login-btn');
-            const timerBox = document.getElementById('lockout-timer-box');
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
             
-            passInput.disabled = true;
-            loginBtn.disabled = true;
-            timerBox.style.display = 'block';
-
-            const interval = setInterval(() => {
-                const now = Date.now();
-                const remainingSecs = Math.floor((targetTime - now) / 1000);
-
-                if (remainingSecs <= 0) {
-                    clearInterval(interval);
-                    localStorage.removeItem('admin_lockout_until');
-                    localStorage.setItem('admin_failed_attempts', '0');
-                    passInput.disabled = false;
-                    loginBtn.disabled = false;
-                    timerBox.style.display = 'none';
-                    document.getElementById('login-error-msg').textContent = 'انتهى وقت الحظر. يمكنك المحاولة مجدداً.';
-                } else {
-                    const mins = Math.floor(remainingSecs / 60);
-                    const secs = remainingSecs % 60;
-                    timerBox.textContent = `⚠️ لوحة المدير محظورة مؤقتاً. يرجى الانتظار: ${mins} دقيقة و ${secs < 10 ? '0' : ''}${secs} ثانية`;
-                }
-            }, 1000);
-        }
-
-        function toggleAuthMode() {
-            isAdminMode = !isAdminMode;
-            const studentForm = document.getElementById('student-auth-form');
-            const adminForm = document.getElementById('admin-auth-form');
-            const toggleBtn = document.getElementById('toggle-auth-mode');
-            const subtitle = document.getElementById('auth-subtitle');
-
-            if (isAdminMode) {
-                studentForm.style.display = 'none';
-                adminForm.style.display = 'block';
-                toggleBtn.textContent = 'العودة لتسجيل دخول الطلاب';
-                subtitle.textContent = 'تسجيل دخول المدير الخاص (مراقب النظام)';
-                checkAdminLockout();
+            if (body.getAttribute('data-theme') === 'light') {
+                body.setAttribute('data-theme', 'dark');
+                themeIcon.className = 'fa-solid fa-sun';
             } else {
-                studentForm.style.display = 'block';
-                adminForm.style.display = 'none';
-                toggleBtn.textContent = 'تسجيل دخول المدير فقط 🔑';
-                subtitle.textContent = 'أدخل اسمك الثلاثي للتسجيل التلقائي، أو انتقل لتسجيل دخول المدير';
+                body.setAttribute('data-theme', 'light');
+                themeIcon.className = 'fa-solid fa-moon';
             }
-            document.getElementById('login-error-msg').textContent = '';
-        }
-
-        function handleStudentRegister() {
-            const triName = document.getElementById('input-tri-name').value.trim();
-            const errorMsg = document.getElementById('login-error-msg');
-
-            const nameParts = triName.split(' ');
-            if (nameParts.length < 3) {
-                errorMsg.textContent = 'يرجى إدخال الاسم الثلاثي واللقب بشكل صحيح.';
-                return;
-            }
-
-            const randomNum = Math.floor(100 + Math.random() * 900);
-            const autoUsername = `${nameParts[0]}_${nameParts[1]}_${randomNum}`.toLowerCase();
-
-            let usersList = JSON.parse(localStorage.getItem('app_users_db') || '[]');
-            
-            const existing = usersList.find(u => u.fullName === triName);
-            if (existing) {
-                if (existing.status === 'approved') {
-                    alert(`أهلاً بك مجدداً ${triName}.\nتم التحقق من موافقة المدير، سيتم الدخول للمنصة.`);
-                    localStorage.setItem('active_approved_user', JSON.stringify(existing));
-                    grantStudentAccess(existing);
-                } else {
-                    alert(`حسابك موجود بالفعل يا ${triName}، ولكنه لا يزال (بانتظار موافقة المدير). يرجى الانتظار.`);
-                }
-                return;
-            }
-
-            const newUserData = {
-                fullName: triName,
-                username: autoUsername,
-                role: 'student',
-                status: 'pending',
-                createdAt: new Date().toISOString()
-            };
-
-            usersList.push(newUserData);
-            localStorage.setItem('app_users_db', JSON.stringify(usersList));
-
-            const authCard = document.getElementById('auth-card-box');
-            authCard.innerHTML = `
-                <h2 style="color: #f59e0b;">تم إرسال طلبك بنجاح! ⏳</h2>
-                <p style="margin: 15px 0; font-size: 0.85rem; color: #fff;">
-                    اسم المستخدم المولّد تلقائياً:<br><strong style="color: #38bdf8; font-size: 1rem;">${autoUsername}</strong>
-                </p>
-                <p style="font-size: 0.75rem; color: #94a3b8; line-height: 1.5;">
-                    تم إرسال اسمك الثلاثي إلى لوحة تحكم المدير للمصادقة. لن يظهر الموقع أو المنصة حتى يقوم المدير بالموافقة على حسابك.
-                </p>
-                <button class="btn-action btn-save" style="margin-top: 15px;" onclick="location.reload()">تحديث الصفحة للتحقق من الموافقة</button>
-            `;
-        }
-
-        function handleAdminLogin() {
-            const passInput = document.getElementById('input-admin-pass').value;
-            const errorMsg = document.getElementById('login-error-msg');
-
-            let failedAttempts = parseInt(localStorage.getItem('admin_failed_attempts') || '0');
-            let lockoutMultiplier = parseInt(localStorage.getItem('admin_lockout_multiplier') || '1');
-
-            if (passInput === ADMIN_PASSWORD_CORRECT) {
-                localStorage.setItem('admin_failed_attempts', '0');
-                localStorage.setItem('admin_lockout_multiplier', '1');
-                grantAdminAccess();
-            } else {
-                failedAttempts++;
-                localStorage.setItem('admin_failed_attempts', failedAttempts.toString());
-
-                if (failedAttempts >= 3) {
-                    const currentLockoutSeconds = BASE_LOCKOUT_TIME * lockoutMultiplier;
-                    const lockoutUntil = Date.now() + (currentLockoutSeconds * 1000);
-                    
-                    localStorage.setItem('admin_lockout_until', lockoutUntil.toString());
-                    localStorage.setItem('admin_lockout_multiplier', (lockoutMultiplier + 1).toString());
-                    localStorage.setItem('admin_failed_attempts', '0');
-
-                    startLockoutTimer(lockoutUntil);
-                    errorMsg.textContent = 'تم تجاوز الحد الأقصى للمحاولات. تم تفعيل الحظر!';
-                } else {
-                    const remaining = 3 - failedAttempts;
-                    errorMsg.textContent = `كلمة المرور غير صحيحة! محاولاتك المتبقية قبل الحظر: ${remaining}`;
-                }
-            }
-        }
-
-        function grantStudentAccess(userData) {
-            document.getElementById('auth-modal').style.display = 'none';
-            document.getElementById('main-control-panel').style.display = 'block';
-            document.getElementById('main-preview-container').style.display = 'flex';
-            document.getElementById('input-student').value = userData.fullName;
-            document.getElementById('preview-student').textContent = userData.fullName;
-            document.getElementById('user-welcome-title').textContent = `مرحباً: ${userData.fullName}`;
-        }
-
-        function grantAdminAccess() {
-            document.getElementById('auth-modal').style.display = 'none';
-            document.getElementById('main-control-panel').style.display = 'block';
-            document.getElementById('main-preview-container').style.display = 'flex';
-            document.getElementById('user-welcome-title').textContent = 'لوحة المدير العام';
-            enableAdminTab();
-        }
-
-        function enableAdminTab() {
-            const navTabs = document.getElementById('nav-tabs-container');
-            const adminBtn = document.createElement('button');
-            adminBtn.className = 'nav-tab-btn';
-            adminBtn.textContent = '🛡️ لوحة المدير';
-            adminBtn.onclick = function() { switchMainSection('section-admin-panel', this); renderAdminPanelData(); };
-            navTabs.appendChild(adminBtn);
-        }
-
-        function renderAdminPanelData() {
-            let usersList = JSON.parse(localStorage.getItem('app_users_db') || '[]');
-            
-            const total = usersList.length;
-            const pending = usersList.filter(u => u.status === 'pending').length;
-            const approved = usersList.filter(u => u.status === 'approved').length;
-
-            document.getElementById('stat-total-users').textContent = total;
-            document.getElementById('stat-pending-users').textContent = pending;
-            document.getElementById('stat-approved-users').textContent = approved;
-
-            const container = document.getElementById('admin-users-list-container');
-            container.innerHTML = '';
-
-            if (total === 0) {
-                container.innerHTML = '<p style="font-size:0.75rem; color:#94a3b8; text-align:center;">لا يوجد أي أعضاء مسجلين حتى الآن.</p>';
-                return;
-            }
-
-            usersList.forEach((user, index) => {
-                const row = document.createElement('div');
-                row.className = 'admin-user-row';
-                row.innerHTML = `
-                    <div>
-                        <strong>${user.fullName}</strong><br>
-                        <span style="color: #38bdf8;">معرف: ${user.username}</span> | 
-                        <span>الحالة: <strong style="color:${user.status === 'approved' ? '#10b981' : '#f59e0b'}">${user.status === 'approved' ? 'معتمد ✅' : 'بانتظار الموافقة ⏳'}</strong></span>
-                    </div>
-                    <div>
-                        ${user.status === 'pending' ? `<button class="btn-approve" onclick="approveUser(${index})">موافقة</button>` : ''}
-                        <button class="btn-delete" onclick="deleteUser(${index})">حذف</button>
-                    </div>
-                `;
-                container.appendChild(row);
-            });
-        }
-
-        function approveUser(index) {
-            let usersList = JSON.parse(localStorage.getItem('app_users_db') || '[]');
-            usersList[index].status = 'approved';
-            localStorage.setItem('app_users_db', JSON.stringify(usersList));
-            renderAdminPanelData();
-            alert('تمت الموافقة على حساب الطالب بنجاح!');
-        }
-
-        function deleteUser(index) {
-            if (confirm('هل أنت متأكد من حذف هذا العضو نهائياً؟')) {
-                let usersList = JSON.parse(localStorage.getItem('app_users_db') || '[]');
-                usersList.splice(index, 1);
-                localStorage.setItem('app_users_db', JSON.stringify(usersList));
-                renderAdminPanelData();
-            }
-        }
-
-        function switchMainSection(sectionId, btnElement) {
-            document.querySelectorAll('.app-section-content').forEach(sec => sec.classList.remove('active'));
-            document.querySelectorAll('.nav-tab-btn').forEach(btn => btn.classList.remove('active'));
-            
-            document.getElementById(sectionId).classList.add('active');
-            btnElement.classList.add('active');
-        }
-
-        const legalTitlesByBranch = {
-            admin: [
-                {
-                    branch: "فرع الرقابة والقرارات الإدارية",
-                    titles: [
-                        "دور الرقابة الإدارية في الحد من الفساد الوظيفي",
-                        "القرارات الإدارية الإلكترونية وآثارها القانونية",
-                        "آليات الطعن في القرارات التأديبية للموظف العام",
-                        "مدى خضوع أعمال الضبط الإداري لرقابة القضاء"
-                    ]
-                },
-                {
-                    branch: "فرع العقود والمسؤولية الإدارية",
-                    titles: [
-                        "المسؤولية التقصيرية للإدارة عن أعمال موظفيها",
-                        "العقود الإدارية الإلكترونية وشروط إبرامها وتنفيذها",
-                        "نزع الملكية للمنفعة العامة وشروط تعويضها قانوناً",
-                        "نطاق السلطة التقديرية للإدارة العامة في الظروف الاستثنائية"
-                    ]
-                }
-            ],
-            constitutional: [
-                {
-                    branch: "فرع الحقوق والحريات العامة",
-                    titles: [
-                        "حماية الحقوق والحريات العامة في ظل الدستور",
-                        "حق التظاهر السلمي والتنظيم القانوني لممارسته",
-                        "أثر حالة الطوارئ على الحقوق والحريات الدستورية",
-                        "تنظيم الأحزاب السياسية والرقابة على تمويلها دستورياً"
-                    ]
-                },
-                {
-                    branch: "فرع النظام السياسي والسلطات",
-                    titles: [
-                        "الرقابة على دستورية القوانين وأثرها في حماية النظام الديمقراطي",
-                        "مبدأ الفصل بين السلطات في الدساتير المعاصرة",
-                        "اختصاصات رئيس الجمهورية في الأنظمة البرلمانية والرئاسية",
-                        "دور المحكمة الاتحادية العليا في تفسير النصوص الدستورية"
-                    ]
-                }
-            ],
-            criminal: [
-                {
-                    branch: "فرع الجرائم المستحدثة والتكنولوجية",
-                    titles: [
-                        "الجرائم الإلكترونية وآليات مواجهتها في قانون العقوبات",
-                        "جريمة غسيل الأموال والآثار الاقتصادية والاجتماعية لها",
-                        "جريمة الرشوة الإلكترونية وصورها الحديثة في النظام القانوني",
-                        "دور التحقيق الجنائي التقني في كشف الجرائم الغامضة"
-                    ]
-                },
-                {
-                    branch: "فرع المبادئ العامة والعقوبات",
-                    titles: [
-                        "المسؤولية الجنائية عن الأخطاء الطبية في التشريع الجنائي",
-                        "الظروف المخففة والمشددة للعقوبة في الجريمة العمدية",
-                        "أركان جريمة التزوير في المحررات الرسمية والعرفية",
-                        "مفهوم الشروع في الجريمة وشروطه القانونية والموضوعية"
-                    ]
-                }
-            ],
-            civil: [
-                {
-                    branch: "فرع العقود والالتزامات المدنية",
-                    titles: [
-                        "نظرية الظروف الاستثنائية وأثرها على العقود الملزمة للجانبين",
-                        "حماية المستهلك في عقود التجارة الإلكترونية طبقاً للقانون المدني",
-                        "الشروط الواقية من المسؤولية العقدية ومدى صحتها قانوناً",
-                        "نطاق التعويض عن الضرر الأدبي والمعنوي في المسؤولية التقصيرية"
-                    ]
-                },
-                {
-                    branch: "فرع الحقوق العينية والإثبات",
-                    titles: [
-                        "المسؤولية المدنية الناشئة عن حوادث المرور والمركبات الذكية",
-                        "أحكام الإثبات بالوسائل الرقمية الحديثة في الدعاوى المدنية",
-                        "أحكام الحيازة وحمايتها في القانون المدني",
-                        "ضمانات الوفاء بالالتزامات العقدية (الرهن والتأمين)"
-                    ]
-                }
-            ],
-            sale: [
-                {
-                    branch: "فرع التزامات البائع والمشتري",
-                    titles: [
-                        "التزامات البائع بتسليم المبيع وضمان الاستحقاق في عقد البيع",
-                        "التزامات المشتري بدفع الثمن وتسلم المبيع قانوناً",
-                        "مخاطر هلاك المبيع قبل التسليم وبعده في العقود التجارية",
-                        "البيع بالتقسيط والشروط الواقية لحماية البائع والمشتري"
-                    ]
-                },
-                {
-                    branch: "فرع الضمانات وحالات البطلان",
-                    titles: [
-                        "ضمان العيوب الخفية في عقد البيع التجاري والمدني",
-                        "أحكام بيع الوفاء وآثارها القانونية في الفقه والقانون",
-                        "بيع الفضولي وتطبيقاته العملية في التشريع المدني",
-                        "الشفعة كسبب مكتسب لملكية العقار المبيع وشروطها"
-                    ]
-                }
-            ],
-            execution: [
-                {
-                    branch: "فرع الحجز والتنفيذ الجبري",
-                    titles: [
-                        "طرق التنفيذ الجبري على أموال المدين المنقولة وغير المنقولة",
-                        "حجز ما لمدين الدّين لدى الغير وإجراءاته القانونية",
-                        "أحكام الحجز الاحتياطي والتنفيذي وتعارضهما العملي",
-                        "بيع الأموال المحجوزة بالمزايدة العلنية وفق قانون التنفيذ"
-                    ]
-                },
-                {
-                    branch: "فرع المنازعات وقرارات المنفذ العدل",
-                    titles: [
-                        "دور مديريات التنفيذ في تحصيل الديون الحكومية والخاصة",
-                        "إشكالآت التنفيذ وطرق الطعن في القرارات الصادرة من المنفذ العدل",
-                        "حبس المدين المماطل والشروط القانونية لإيقاعه",
-                        "حجية السندات التنفيذية في النظام القانوني"
-                    ]
-                }
-            ],
-            procedural: [
-                {
-                    branch: "فرع إجراءات التحقيق وجمع الأدلة",
-                    titles: [
-                        "سلطات محكمة التحقيق في جمع الأدلة وتوقيف المتهمين",
-                        "سلطة قاضي التحقيق في تفتيش الأشخاص والمساكن",
-                        "دور الادعاء العام في تحريك الدعوى الجزائية ومباشرتها",
-                        "ضمانات المتهم في مرحلة التحقيق الابتدائي والمحاكمة"
-                    ]
-                },
-                {
-                    branch: "فرع المحاكمات وطرق الطعن",
-                    titles: [
-                        "بطلان الإجراءات الجنائية المخالفة لقواعد النظام العام",
-                        "طرق الطعن في الأحكام الجزائية (التمييز وإعادة المحاكمة)",
-                        "حجية الاحكام الجزائية أمام القضاء المدني",
-                        "أسباب انقضاء الدعوى الجزائية في التشريع المقارن"
-                    ]
-                }
-            ],
-            ebusiness: [
-                {
-                    branch: "فرع الإدارة والحكومة الإلكترونية",
-                    titles: [
-                        "التنظيم القانوني لإدارة الأعمال الإلكترونية والحكومة الذكية",
-                        "التوقيع الإلكتروني وحجيته الإثباتية في المعاملات الإدارية",
-                        "أمن المعلومات وحماية البيانات الشخصية في المؤسسات الرقمية",
-                        "حوكمة تكنولوجيا المعلومات وأثرها على كفاءة الإدارة العامة"
-                    ]
-                },
-                {
-                    branch: "فرع التجارة والمستهلك الإلكتروني",
-                    titles: [
-                        "حماية المستهلك في عقود التجارة الإلكترونية العابرة للحدود",
-                        "المسؤولية القانونية لمنصات التجارة الإلكترونية عن المنتجات المعيبة",
-                        "تسوية المنازعات الإلكترونية بالطرق البديلة (ADR)",
-                        "العقود الذكية وتقنية البلوكشين وتطبيقاتها القانونية والإدارية"
-                    ]
-                }
-            ],
-            baath: [
-                {
-                    branch: "فرع الجرائم والانتهاكات السياسية",
-                    titles: [
-                        "الآثار القانونية والدستورية للقرارات السياسية الخاصة باجتثاث الأحزاب المنحلة",
-                        "جرائم الإبادة الجماعية والانتهاكات الجسيمة لحقوق الإنسان في النظم الدكتاتورية",
-                        "الجرائم ضد الإنسانية وجرائم الحرب في التشريعات الجنائية الخاصة",
-                        "المقابر الجماعية والمسؤولية الجنائية الدولية والوطنية للمرتكبين"
-                    ]
-                },
-                {
-                    branch: "فرع العدالة الانتقالية والتعويضات",
-                    titles: [
-                        "دور هيئات المساءلة والعدالة في تطهير مؤسسات الدولة",
-                        "التعويضات القانونية للمتضررين والسياسيين في ظل قوانين العدالة الانتقالية",
-                        "مصادرة الأموال المنقولة وغير المنقولة لأركان النظام المباد وأحكامها",
-                        "توثيق الجرائم السياسية وأهميتها في بناء السلم الأهلي والدستوري"
-                    ]
-                }
-            ],
-            english: [
-                {
-                    branch: "فرع المصطلحات والترجمة القانونية",
-                    titles: [
-                        "Legal Terminology and its Translation Challenges in Comparative Law",
-                        "A Comparative Study of Contract Law in English and Local Systems",
-                        "The Translation of Legal Maxims from Latin into English and Arabic",
-                        "Legal English Discourse: Analyzing Judicial Rulings and Contracts"
-                    ]
-                },
-                {
-                    branch: "فرع القانون الدولي والتجاري المقارن",
-                    titles: [
-                        "The Impact of Common Law on Modern Commercial Transactions",
-                        "International Arbitration Terminology in Anglo-American Law",
-                        "Human Rights Protection: A Linguistic Analysis of International Covenants",
-                        "Drafting International Commercial Agreements in English"
-                    ]
-                }
-            ]
-        };
-
-        function switchCategory(category, tabElement) {
-            document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
-            tabElement.classList.add('active');
-
-            const container = document.getElementById('titles-container');
-            container.innerHTML = '';
-
-            const branchesData = legalTitlesByBranch[category];
-            if (!branchesData) return;
-
-            branchesData.forEach(branchGroup => {
-                const branchDiv = document.createElement('div');
-                branchDiv.className = 'branch-container';
-                
-                let html = `<div class="branch-title">${branchGroup.branch}</div>`;
-                
-                branchGroup.titles.forEach(title => {
-                    html += `
-                        <div class="topic-item">
-                            <span>${title}</span>
-                            <button class="use-title-btn" onclick="useTitle('${title.replace(/'/g, "\\'")}')">استخدام للغلاف</button>
-                        </div>
-                    `;
-                });
-
-                branchDiv.innerHTML = html;
-                container.appendChild(branchDiv);
-            });
-        }
-
-        function useTitle(titleText) {
-            document.getElementById('input-title').value = titleText;
-            document.getElementById('preview-title').textContent = titleText;
-            switchMainSection('section-cover', document.querySelectorAll('.nav-tab-btn')[0]);
-            alert('تم تعيين العنوان بنجاح في الغلاف!');
-        }
-
-        function copySnippet(text) {
-            navigator.clipboard.writeText(text);
-            alert('تم نسخ النص بنجاح!');
-        }
-
-        function generateReportStructure() {
-            const field = document.getElementById('report-field-select').value;
-            const outputBox = document.getElementById('structure-output-box');
-
-            let structure = "";
-            if (field === 'admin') {
-                structure = "1. المقدمة وأهمية البحث الإداري\n2. المبحث الأول: ماهية القرارات والرقابة الإدارية\n3. المبحث الثاني: التطبيقات العملية والإشكالات القانونية\n4. الخاتمة والاستنتاجات والتوصيات المقترحة\n5. قائمة المصادر والمراجع";
-            } else if (field === 'constitutional') {
-                structure = "1. المقدمة ومشكلة البحث الدستوري\n2. المبحث الأول: الإطار الدستوري والنظري للحريات\n3. المبحث الثاني: آليات الحماية والرقابة الدستورية\n4. الخاتمة والتوصيات الدستورية\n5. قائمة المصادر والمراجع";
-            } else if (field === 'criminal') {
-                structure = "1. المقدمة والجانب الإجرامي المستحدث\n2. المبحث الأول: الأركان القانونية والموضوعية للجريمة\n3. المبحث الثاني: العقوبات والآثار المترتبة\n4. الخاتمة والنتائج الجنائية\n5. قائمة المصادر والمراجع";
-            } else if (field === 'ebusiness') {
-                structure = "1. المقدمة وأهمية التحول الرقمي الإداري\n2. المبحث الأول: البنية التشريعية لإدارة الأعمال الإلكترونية\n3. المبحث الثاني: التحديات والمعالجات القانونية والتقنية\n4. الخاتمة والمقترحات الإدارية\n5. قائمة المصادر والمراجع";
-            } else if (field === 'baath') {
-                structure = "1. المقدمة وخلفية العدالة الانتقالية\n2. المبحث الأول: السند القانوني والقرارات السياسية والدستورية\n3. المبحث الثاني: الآثار القانونية والتعويضات والتطهير الإداري\n4. الخاتمة والاستنتاجات التاريخية والقانونية\n5. قائمة المصادر والمراجع";
-            } else {
-                structure = "1. المقدمة العامة\n2. المبحث الأول: التأصيل النظري والمفاهيمي\n3. المبحث الثاني: الآثار والتطبيقات القانونية\n4. الخاتمة والتوصيات\n5. قائمة المصادر والمراجع";
-            }
-
-            outputBox.textContent = structure;
-        }
-
-        function generateLegalTemplateText() {
-            const type = document.getElementById('text-type-select').value;
-            const outputBox = document.getElementById('template-output-box');
-
-            let text = "";
-            if (type === 'intro') {
-                text = "يحتل موضوع البحث أهمية بالغ الأهمية في الدراسات القانونية المعاصرة، نظراً لتطبيقاته العملية الواسعة والحاجة الماسة لتنظيم التشريعات وتحقيق الاستقرار القانوني والإداري. وعليه، تم اختيار هذا الموضوع لتسليط الضوء على النصوص القانونية النافذة ومعالجة الإشكالات العملية المرتبطة بها.";
-            } else if (type === 'conclusion') {
-                text = "وفي ختام هذا البحث، توصلنا إلى مجموعة من الاستنتاجات المهمة التي توضح نصوص القانون ومدى فعاليتها، ونوصي المشرع بضرورة تحديث النصوص القانونية وتوفير الحماية الكافية للحقوق وتعزيز الرقابة المؤسسية للوصول إلى بيئة قانونية وإدارية مثالية.";
-            } else if (type === 'methodology') {
-                text = "اعتمد هذا البحث على المنهج التحليلي المقارن لدراسة النصوص القانونية وتحليل آراء الفقه والقضاء، بالإضافة إلى استعراض القرارات والتشريعات ذات الصلة للوصول إلى نتائج دقيقة وموضوعية.";
-            }
-
-            outputBox.textContent = text;
-        }
-
-        window.onload = function() {
-            switchCategory('admin', document.querySelector('.cat-tab'));
-            generateReportStructure();
-            generateLegalTemplateText();
-
-            bindings.forEach(item => {
-                const savedVal = localStorage.getItem(item.input);
-                if (savedVal) {
-                    document.getElementById(item.input).value = savedVal;
-                    document.getElementById(item.preview).textContent = savedVal;
-                }
-            });
-        };
-
-        const bindings = [
-            { input: 'input-university', preview: 'preview-university' },
-            { input: 'input-college', preview: 'preview-college' },
-            { input: 'input-department', preview: 'preview-department' },
-            { input: 'input-subject', preview: 'preview-subject' },
-            { input: 'input-title', preview: 'preview-title' },
-            { input: 'input-study-type', preview: 'preview-study-type' },
-            { input: 'input-student', preview: 'preview-student' },
-            { input: 'input-supervisor', preview: 'preview-supervisor' },
-            { input: 'input-year', preview: 'preview-year' },
-            { input: 'input-signatures-text', preview: 'preview-signatures-text' }
-        ];
-
-        bindings.forEach(item => {
-            const inputElem = document.getElementById(item.input);
-            const previewElem = document.getElementById(item.preview);
-            inputElem.addEventListener('input', () => {
-                previewElem.textContent = inputElem.value;
-            });
-        });
-
-        function applyPreset(borderColor, bgColor, boxBgColor) {
-            const page = document.getElementById('capture-area');
-            page.style.borderColor = borderColor;
-            page.style.backgroundColor = bgColor;
-            document.getElementById('title-section-box').style.backgroundColor = boxBgColor;
-            document.getElementById('picker-border-color').value = borderColor;
-            document.getElementById('picker-bg-color').value = bgColor;
-        }
-
-        function setModernBorder(borderClass, btnElement) {
-            const page = document.getElementById('capture-area');
-            page.classList.remove('border-modern-double', 'border-modern-glow', 'border-modern-framed', 'border-clean-minimal');
-            page.classList.add(borderClass);
-            document.querySelectorAll('.border-style-btn').forEach(b => b.classList.remove('active'));
-            btnElement.classList.add('active');
-        }
-
-        function toggleOrnaments(checkbox) {
-            document.querySelectorAll('.corner-ornament').forEach(o => o.style.display = checkbox.checked ? 'block' : 'none');
-        }
-
-        function toggleSignatures(checkbox) {
-            document.getElementById('preview-signatures-box').style.display = checkbox.checked ? 'flex' : 'none';
-        }
-
-        function updateBorderColor(color) {
-            const page = document.getElementById('capture-area');
-            page.style.borderColor = color;
-            if(page.classList.contains('border-modern-double')) page.style.outlineColor = color;
-            document.querySelectorAll('.corner-ornament').forEach(o => o.style.borderColor = color);
-        }
-
-        function updateBgColor(color) {
-            document.getElementById('capture-area').style.backgroundColor = color;
-        }
-
-        function changeAlignment(alignClass) {
-            const box = document.getElementById('title-section-box');
-            box.classList.remove('align-right', 'align-center', 'align-left');
-            box.classList.add(alignClass);
-        }
-
-        function changeFontFamily(fontClass) {
-            const container = document.getElementById('body-container');
-            container.className = container.className.replace(/font-\S+/g, '');
-            container.classList.add(fontClass);
-        }
-
-        function changeFontSize(size) {
-            document.getElementById('preview-title').style.fontSize = size + 'rem';
-        }
-
-        function loadLogo(event, boxId) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById(boxId).innerHTML = `<img src="${e.target.result}" alt="شعار">`;
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function loadWatermark(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('watermark-layer').style.backgroundImage = `url('${e.target.result}')`;
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function downloadImage() {
-            html2canvas(document.getElementById('capture-area'), { scale: 2 }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = 'university-cover.png';
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-            });
-        }
-
-        function downloadPDF() {
-            const { jsPDF } = window.jspdf;
-            html2canvas(document.getElementById('capture-area'), { scale: 2 }).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF('p', 'mm', 'a4');
-                pdf.addImage(imgData, 'PNG', 0, 0, 210, 297);
-                pdf.save('university-cover.pdf');
-            });
-        }
-
-        function saveToLocalStorage() {
-            bindings.forEach(item => {
-                localStorage.setItem(item.input, document.getElementById(item.input).value);
-            });
-            alert('تم حفظ البيانات بنجاح في المتصفح!');
         }
     </script>
+
 </body>
 </html>
