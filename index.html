@@ -1,382 +1,586 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- ترويسات الأمان والحماية -->
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
-    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-
-    <title>عبدالرحمن وليد هاشم - السيرة الذاتية</title>
-    <!-- استيراد خط تجوال العربي -->
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
-    <!-- مكتبة الأيقونات FontAwesome -->
+    <title>عبد الرحمن وليد هاشم | مطور بوتات تليجرام ومصمم مواقع</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --bg-color: #f4f7f6;
-            --card-bg: #ffffff;
-            --text-color: #2c3e50;
-            --text-muted: #7f8c8d;
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-            --border-color: #e5e7eb;
-            --input-bg: #f9fafb;
-            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-            --skill-bg: #ede9fe;
-            --skill-color: #6d28d9;
-        }
-
-        [data-theme="dark"] {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-color: #f8fafc;
-            --text-muted: #94a3b8;
-            --primary: #6366f1;
-            --primary-hover: #4f46e5;
-            --gradient: linear-gradient(135deg, #4338ca 0%, #6d28d9 100%);
-            --border-color: #334155;
-            --input-bg: #0f172a;
-            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-            --skill-bg: #312e81;
-            --skill-color: #a5b4fc;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Tajawal', sans-serif;
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.7;
-        }
-
-        /* شريط التنقل العلوي */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: var(--card-bg);
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-        }
-
-        .nav-logo {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: var(--primary);
-        }
-
-        .nav-controls {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .theme-toggle {
-            background: var(--input-bg);
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            transition: transform 0.2s;
-        }
-
-        .theme-toggle:hover {
-            transform: scale(1.1);
-        }
-
-        /* الواجهة الرئيسية */
-        header {
-            background: var(--gradient);
-            color: white;
-            padding: 140px 20px 80px;
-            text-align: center;
-            position: relative;
-            clip-path: ellipse(150% 100% at 50% 0%);
-        }
-
-        header h1 {
-            font-size: 2.8rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
-
-        header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            font-weight: 300;
-        }
-
-        /* المحتوى الرئيسي */
-        .container {
-            max-width: 850px;
-            margin: -40px auto 50px;
-            padding: 0 20px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 35px;
-            margin-bottom: 30px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border-color);
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-3px);
-        }
-
-        .card h2 {
-            color: var(--text-color);
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 12px;
-        }
-
-        .card h2 i {
-            color: var(--primary);
-        }
-
-        .card p {
-            color: var(--text-muted);
-            font-size: 1.05rem;
-        }
-
-        /* شبكة المهارات */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .skill-item {
-            background: var(--skill-bg);
-            color: var(--skill-color);
-            padding: 14px 18px;
-            border-radius: 12px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1rem;
-        }
-
-        /* أزرار التواصل */
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .social-btn {
-            background: #E1306C;
-            color: white;
-            padding: 12px 28px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 4px 15px rgba(225, 48, 108, 0.3);
-            transition: opacity 0.3s, transform 0.2s;
-        }
-
-        .social-btn:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-        }
-
-        /* نموذج الاتصال */
-        .contact-form {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-            margin-top: 15px;
-        }
-
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 14px 18px;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            background: var(--input-bg);
-            color: var(--text-color);
-            font-family: 'Tajawal', sans-serif;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus, .form-group textarea:focus {
-            border-color: var(--primary);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            height: 130px;
-        }
-
-        .submit-btn {
-            background: var(--gradient);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 12px;
-            font-size: 1.05rem;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
-            transition: opacity 0.3s, transform 0.2s;
-        }
-
-        .submit-btn:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            border-top: 1px solid var(--border-color);
-            background-color: var(--card-bg);
-        }
-
-        @media (max-width: 600px) {
-            header h1 { font-size: 2.2rem; }
-            .card { padding: 20px; }
-        }
-    </style>
-</head>
-<body data-theme="light">
-
-    <!-- شريط التنقل -->
-    <nav>
-        <div class="nav-logo">عبدالرحمن وليد</div>
-        <div class="nav-controls">
-            <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" title="تغيير المظهر">
-                <i class="fa-solid fa-moon" id="themeIcon"></i>
-            </button>
-        </div>
-    </nav>
-
-    <!-- الواجهة الرئيسية -->
-    <header>
-        <h1>عبدالرحمن وليد هاشم</h1>
-        <p>خريج دبلوم تقنيات الإدارة القانونية | مطور ويب ومبرمج بوتات تيليجرام</p>
-    </header>
-
-    <div class="container">
-        <!-- نبذة عني -->
-        <div class="card">
-            <h2><i class="fa-solid fa-user-circle"></i> نبذة عني</h2>
-            <p>
-                خريج دبلوم تقنيات الإدارة القانونية من كلية البوليتكنيك في نينوى. أمتلك شغفاً وخبرة واسعة في عالم البرمجة وتطوير التقنيات، حيث أدمج بين دقة الخلفية القانونية والإدارية والابتكار في تطوير الحلول البرمجية والمواقع الإلكترونية المتميزة.
-            </p>
-        </div>
-
-        <!-- التعليم -->
-        <div class="card">
-            <h2><i class="fa-solid fa-graduation-cap"></i> التعليم الأكاديمي</h2>
-            <p><strong>دبلوم تقنيات الإدارة القانونية</strong></p>
-            <p style="margin-top: 5px;">كلية البوليتكنيك نينوى (الجامعة التقنية الشمالية)</p>
-        </div>
-
-        <!-- المهارات -->
-        <div class="card">
-            <h2><i class="fa-solid fa-code"></i> المهارات والاختصاصات</h2>
-            <div class="skills-grid">
-                <div class="skill-item"><i class="fa-brands fa-html5 fa-lg"></i> HTML / CSS / JavaScript</div>
-                <div class="skill-item"><i class="fa-brands fa-python fa-lg"></i> Python Programming</div>
-                <div class="skill-item"><i class="fa-brands fa-telegram fa-lg"></i> Telegram Bots</div>
-                <div class="skill-item"><i class="fa-solid fa-scale-balanced fa-lg"></i> الإدارة القانونية</div>
-            </div>
-        </div>
-
-        <!-- التواصل -->
-        <div class="card">
-            <h2><i class="fa-solid fa-paper-plane"></i> تواصل معي</h2>
-            <p style="margin-bottom: 20px;">يسعدني تواصلك عبر حسابي على إنستغرام أو مراسلتي بشكل مباشر:</p>
-            
-            <div class="social-links">
-                <a href="https://www.instagram.com/25ff99?stkn=eHNleHNhNHFyaWoy" target="_blank" class="social-btn">
-                    <i class="fa-brands fa-instagram fa-lg"></i> إنستغرام
-                </a>
-            </div>
-
-            <!-- نموذج الاتصال الآمن والمربوط -->
-            <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
-                <!-- مفتاح الوصول الصحيح -->
-                <input type="hidden" name="access_key" value="a38b2e14-4ade-4b67-8615-a0164a4beb09">
-                <!-- حقل الحماية المخفي من الروبوتات -->
-                <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
-
-                <div class="form-group">
-                    <input type="text" name="name" placeholder="اسمك الكريم" required>
-                </div>
-                <div class="form-group">
-                    <input type="email" name="email" placeholder="البريد الإلكتروني" required>
-                </div>
-                <div class="form-group">
-                    <textarea name="message" placeholder="اكتب رسالتك هنا..." required></textarea>
-                </div>
-                <button type="submit" class="submit-btn"><i class="fa-solid fa-envelope-circle-check"></i> إرسال الرسالة</button>
-            </form>
-        </div>
-    </div>
-
-    <footer>
-        <p>جميع الحقوق محفوظة &copy; 2026 - عبدالرحمن وليد هاشم</p>
-    </footer>
-
+    <!-- Google Fonts Cairo & Tajawal -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <script>
-        function toggleTheme() {
-            const body = document.body;
-            const themeIcon = document.getElementById('themeIcon');
-            
-            if (body.getAttribute('data-theme') === 'light') {
-                body.setAttribute('data-theme', 'dark');
-                themeIcon.className = 'fa-solid fa-sun';
-            } else {
-                body.setAttribute('data-theme', 'light');
-                themeIcon.className = 'fa-solid fa-moon';
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        tajawal: ['Tajawal', 'sans-serif'],
+                    },
+                    colors: {
+                        darkBg: '#080c14',
+                        cardBg: 'rgba(15, 23, 42, 0.65)',
+                        amberGold: '#d97706',
+                        cyanNeon: '#06b6d4',
+                        purpleNeon: '#8b5cf6',
+                        telegramBlue: '#229ED9',
+                    }
+                }
             }
         }
     </script>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #080c14;
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
 
+        .glass-card {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(6, 182, 212, 0.4);
+            box-shadow: 0 10px 30px -10px rgba(6, 182, 212, 0.2);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #38bdf8 0%, #a855f7 50%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-blue-purple {
+            background: linear-gradient(135deg, #06b6d4 0%, #8b5cf6 100%);
+        }
+
+        /* Animated Glowing Border for Avatar */
+        .glow-avatar-wrap {
+            position: relative;
+        }
+        .glow-avatar-wrap::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 2rem;
+            background: linear-gradient(45deg, #06b6d4, #8b5cf6, #d97706, #06b6d4);
+            background-size: 300% 300%;
+            z-index: 0;
+            animation: glowingGradient 6s ease infinite;
+            filter: blur(10px);
+            opacity: 0.85;
+        }
+
+        @keyframes glowingGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #080c14;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="bg-darkBg text-gray-100 selection:bg-cyanNeon selection:text-darkBg">
+
+    <header class="fixed top-0 left-0 right-0 z-50 glass-card border-b border-slate-800/60 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl gradient-blue-purple flex items-center justify-center text-white font-black text-xl shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
+                        ع
+                    </div>
+                    <span class="text-xl font-extrabold tracking-wide text-white">
+                        عبد الرحمن <span class="gradient-text">هاشم</span>
+                    </span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center space-x-8 space-x-reverse font-medium text-sm">
+                    <a href="#hero" class="text-gray-300 hover:text-cyanNeon transition-colors">الرئيسية</a>
+                    <a href="#about" class="text-gray-300 hover:text-cyanNeon transition-colors">عنّي</a>
+                    <a href="#skills" class="text-gray-300 hover:text-cyanNeon transition-colors">المهارات والتقنيات</a>
+                    <a href="#services" class="text-gray-300 hover:text-cyanNeon transition-colors">الخدمات</a>
+                    <a href="#contact" class="text-gray-300 hover:text-cyanNeon transition-colors">تواصل معي</a>
+                </nav>
+
+                <!-- Instagram Action Button -->
+                <div class="hidden md:flex items-center gap-4">
+                    <a href="https://www.instagram.com/25ff99?xtok=eHNleHNhNHFyaWoy" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white font-bold text-sm flex items-center gap-2 shadow-lg hover:opacity-95 hover:scale-105 transition-all">
+                        <i class="fa-brands fa-instagram text-lg"></i>
+                        <span>انستغرام</span>
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="menu-btn" class="md:hidden text-gray-300 hover:text-cyanNeon focus:outline-none p-2 rounded-lg bg-slate-800/50">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden glass-card border-b border-slate-800 px-6 pt-3 pb-6 space-y-4">
+            <a href="#hero" class="block text-gray-200 hover:text-cyanNeon py-2 font-medium border-b border-slate-800/50">الرئيسية</a>
+            <a href="#about" class="block text-gray-200 hover:text-cyanNeon py-2 font-medium border-b border-slate-800/50">عنّي</a>
+            <a href="#skills" class="block text-gray-200 hover:text-cyanNeon py-2 font-medium border-b border-slate-800/50">المهارات والتقنيات</a>
+            <a href="#services" class="block text-gray-200 hover:text-cyanNeon py-2 font-medium border-b border-slate-800/50">الخدمات</a>
+            <a href="#contact" class="block text-gray-200 hover:text-cyanNeon py-2 font-medium">تواصل معي</a>
+            <a href="https://www.instagram.com/25ff99?xtok=eHNleHNhNHFyaWoy" target="_blank" rel="noopener noreferrer" class="w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white font-bold text-center flex items-center justify-center gap-2">
+                <i class="fa-brands fa-instagram text-lg"></i>
+                <span>متابعة على إنستغرام</span>
+            </a>
+        </div>
+    </header>
+
+    <section id="hero" class="min-h-screen flex items-center justify-center relative pt-28 pb-16 overflow-hidden">
+        <!-- Ambient Background Glows -->
+        <div class="absolute top-1/4 left-10 w-96 h-96 bg-cyanNeon/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-10 right-10 w-96 h-96 bg-purpleNeon/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+            
+            <!-- Hero Text Details -->
+            <div class="lg:col-span-7 space-y-6 text-right order-2 lg:order-1">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border border-cyanNeon/30 text-cyanNeon text-sm font-semibold">
+                    <i class="fa-solid fa-graduation-cap text-amber-400"></i>
+                    <span>دبلوم تقنيات الإدارة القانونية | كلية البوليتكنك نينوى</span>
+                </div>
+
+                <h1 class="text-4xl sm:text-6xl font-black tracking-tight leading-tight text-white">
+                    أهلاً بك، أنا <br>
+                    <span class="gradient-text">عبد الرحمن وليد هاشم</span>
+                </h1>
+
+                <p class="text-xl sm:text-2xl text-gray-300 font-bold flex items-center gap-3">
+                    <span class="w-3 h-3 rounded-full bg-cyanNeon animate-pulse"></span>
+                    مختص برمجة بوتات تليجرام & تصميم المواقع
+                </p>
+
+                <p class="text-gray-400 text-base sm:text-lg leading-relaxed max-w-2xl font-tajawal">
+                    متخصص في ابتكار وتطوير **بوتات تليجرام** ذكية وتفاعلية وأوتوماتيكية، بالإضافة إلى **تصميم وتطوير مواقع الويب** بلغات البرمجة (HTML, CSS, JavaScript, Java) مع تنظيم إداري وقانوني متكامل.
+                </p>
+
+                <!-- Skill Badges -->
+                <div class="flex flex-wrap gap-3 pt-2">
+                    <span class="px-3.5 py-1.5 rounded-lg glass-card text-xs font-semibold text-telegramBlue border border-telegramBlue/30 flex items-center gap-1.5">
+                        <i class="fa-paper-plane"></i> بوتات تليجرام
+                    </span>
+                    <span class="px-3.5 py-1.5 rounded-lg glass-card text-xs font-semibold text-cyanNeon border border-cyanNeon/30 flex items-center gap-1.5">
+                        <i class="fa-code"></i> تصميم مواقع الويب
+                    </span>
+                    <span class="px-3.5 py-1.5 rounded-lg glass-card text-xs font-semibold text-purpleNeon border border-purpleNeon/30 flex items-center gap-1.5">
+                        <i class="fa-brands fa-java"></i> Java / JS / HTML / CSS
+                    </span>
+                </div>
+
+                <!-- Call to Action Buttons -->
+                <div class="flex flex-wrap gap-4 pt-6">
+                    <a href="#contact" class="px-8 py-4 rounded-xl gradient-blue-purple text-white font-extrabold shadow-lg shadow-cyan-500/20 hover:scale-105 hover:shadow-cyan-500/40 transition-all flex items-center gap-3">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>اطلب مشروعك الآن</span>
+                    </a>
+                    
+                    <a href="https://www.instagram.com/25ff99?xtok=eHNleHNhNHFyaWoy" target="_blank" rel="noopener noreferrer" class="px-8 py-4 rounded-xl glass-card border border-pink-500/40 text-pink-400 hover:bg-pink-500/10 font-bold hover:scale-105 transition-all flex items-center gap-3">
+                        <i class="fa-brands fa-instagram text-xl"></i>
+                        <span>حسابي في إنستغرام</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Hero Image Box with Image Fallback -->
+            <div class="lg:col-span-5 flex justify-center order-1 lg:order-2">
+                <div class="glow-avatar-wrap w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96">
+                    <div class="relative w-full h-full rounded-2xl overflow-hidden glass-card z-10 border border-slate-700 shadow-2xl group flex items-center justify-center bg-slate-900">
+                        <!-- Profile Image -->
+                        <img 
+                            src="photo_2026-10-10_12-02-00.jpg" 
+                            alt="عبد الرحمن وليد هاشم" 
+                            class="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-700"
+                            onerror="this.style.display='none'; document.getElementById('image-fallback').classList.remove('hidden');"
+                        >
+                        
+                        <!-- Fallback Avatar if Image fails to load locally -->
+                        <div id="image-fallback" class="hidden flex flex-col items-center justify-center text-center p-6 space-y-3">
+                            <div class="w-24 h-24 rounded-full gradient-blue-purple flex items-center justify-center text-4xl font-extrabold text-white shadow-xl">
+                                ع
+                            </div>
+                            <span class="text-lg font-bold text-white">عبد الرحمن وليد هاشم</span>
+                        </div>
+
+                        <div class="absolute inset-0 bg-gradient-to-t from-darkBg via-transparent to-transparent opacity-60"></div>
+                        
+                        <div class="absolute bottom-4 right-4 left-4 p-4 rounded-xl glass-card border border-white/10 text-center">
+                            <h3 class="text-lg font-black text-white">عبد الرحمن وليد هاشم</h3>
+                            <p class="text-xs text-amber-400 font-bold">مطور بوتات تليجرام ومواقع الويب</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="about" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl sm:text-4xl font-extrabold mb-4">من هو <span class="gradient-text">عبد الرحمن؟</span></h2>
+                <div class="w-24 h-1.5 bg-gradient-to-r from-cyanNeon via-purpleNeon to-amberGold mx-auto rounded-full mb-6"></div>
+                <p class="text-gray-300 text-lg leading-relaxed font-tajawal">
+                    جمعٌ بين التفكير المنظم والإبداع البرمجي في تطوير المواقع والحلول الذكية
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Academic Card -->
+                <div class="glass-card p-8 rounded-2xl relative overflow-hidden group hover:-translate-y-2 transition-all duration-300">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">المؤهل العلمي</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed font-tajawal">
+                        حاصل على **شهادة الدبلوم في تقنيات الإدارة القانونية** من **كلية البوليتكنك نينوى / الجامعة التقنية الشمالية**، مما يمنحني دقة عالية في تنظيم وأتمتة النماذج والعمليات.
+                    </p>
+                </div>
+
+                <!-- Telegram Bot Card -->
+                <div class="glass-card p-8 rounded-2xl relative overflow-hidden group hover:-translate-y-2 transition-all duration-300">
+                    <div class="w-14 h-14 rounded-2xl bg-telegramBlue/10 border border-telegramBlue/30 flex items-center justify-center text-telegramBlue text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-brands fa-telegram"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">خبير بوتات تليجرام</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed font-tajawal">
+                        تطوير بوتات تليجرام متقدمة وسريعة الاستجابة، لتسهيل خدمة العملاء، إدارة القنوات والمجموعات، والرد الآلي الذكي وأتمتة المهام.
+                    </p>
+                </div>
+
+                <!-- Web Development Card -->
+                <div class="glass-card p-8 rounded-2xl relative overflow-hidden group hover:-translate-y-2 transition-all duration-300">
+                    <div class="w-14 h-14 rounded-2xl bg-cyanNeon/10 border border-cyanNeon/30 flex items-center justify-center text-cyanNeon text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">تطوير المواقع</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed font-tajawal">
+                        تصميم وبناء مواقع إلكترونية عصرية ومتجاوبة بالكامل باستخدام HTML، CSS، JavaScript، بلغة برمجية نظيفة وجذابة.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="py-20 bg-slate-900/40 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl sm:text-4xl font-extrabold mb-4">المهارات <span class="gradient-text">والتقنيات</span></h2>
+                <div class="w-24 h-1.5 bg-gradient-to-r from-cyanNeon via-purpleNeon to-amberGold mx-auto rounded-full mb-6"></div>
+                <p class="text-gray-300 text-lg font-tajawal">
+                    لغات البرمجة والأدوات التي أستخدمها لبناء مشاريع الويب وبوتات تليجرام
+                </p>
+            </div>
+
+            <!-- Skills Progress Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                
+                <div class="glass-card p-8 rounded-2xl space-y-6">
+                    <h3 class="text-2xl font-extrabold text-white mb-6 flex items-center gap-3">
+                        <i class="fa-solid fa-laptop-code text-cyanNeon"></i>
+                        برمجة المواقع وبوتات تليجرام
+                    </h3>
+
+                    <!-- Skill Item -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between font-bold text-sm">
+                            <span class="text-gray-200">برمجة وتطوير بوتات تليجرام (Telegram Bots)</span>
+                            <span class="text-cyanNeon">95%</span>
+                        </div>
+                        <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden">
+                            <div class="bg-gradient-to-r from-cyanNeon to-telegramBlue h-full rounded-full" style="width: 95%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Skill Item -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between font-bold text-sm">
+                            <span class="text-gray-200">تصميم وتنسيق المواقع (HTML5 / CSS3)</span>
+                            <span class="text-purpleNeon">90%</span>
+                        </div>
+                        <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden">
+                            <div class="bg-gradient-to-r from-purpleNeon to-pink-500 h-full rounded-full" style="width: 90%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Skill Item -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between font-bold text-sm">
+                            <span class="text-gray-200">التفاعل والديناميكية (JavaScript)</span>
+                            <span class="text-amber-400">85%</span>
+                        </div>
+                        <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden">
+                            <div class="bg-gradient-to-r from-amber-400 to-amber-600 h-full rounded-full" style="width: 85%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Skill Item -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between font-bold text-sm">
+                            <span class="text-gray-200">البرمجة بلغة Java</span>
+                            <span class="text-red-400">80%</span>
+                        </div>
+                        <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden">
+                            <div class="bg-gradient-to-r from-red-500 to-orange-500 h-full rounded-full" style="width: 80%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Academic background skills -->
+                <div class="glass-card p-8 rounded-2xl flex flex-col justify-between space-y-6">
+                    <div>
+                        <h3 class="text-2xl font-extrabold text-white mb-6 flex items-center gap-3">
+                            <i class="fa-solid fa-brain text-amber-400"></i>
+                            مهارات تقنية وإدارية
+                        </h3>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6 font-tajawal">
+                            تضمن الخلفية العلمية في تقنيات الإدارة القانونية بناء برمجيات دقيقة ومستقرة تلبي احتياجات العملاء بسهولة:
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 rounded-xl bg-slate-800/60 border border-slate-700/60 flex items-center gap-3">
+                            <i class="fa-solid fa-robot text-cyanNeon text-2xl"></i>
+                            <span class="font-bold text-sm text-gray-200">أتمتة المهام والردود</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-800/60 border border-slate-700/60 flex items-center gap-3">
+                            <i class="fa-solid fa-file-shield text-amber-400 text-2xl"></i>
+                            <span class="font-bold text-sm text-gray-200">تنظيم النماذج الإلكترونية</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-800/60 border border-slate-700/60 flex items-center gap-3">
+                            <i class="fa-solid fa-mobile-screen text-purpleNeon text-2xl"></i>
+                            <span class="font-bold text-sm text-gray-200">مواقع متجاوبة للموبايل</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-800/60 border border-slate-700/60 flex items-center gap-3">
+                            <i class="fa-solid fa-headset text-green-400 text-2xl"></i>
+                            <span class="font-bold text-sm text-gray-200">الدعم الفني والتقني</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl sm:text-4xl font-extrabold mb-4">الخدمات التي <span class="gradient-text">أقدمها</span></h2>
+                <div class="w-24 h-1.5 bg-gradient-to-r from-cyanNeon via-purpleNeon to-amberGold mx-auto rounded-full mb-6"></div>
+                <p class="text-gray-300 text-lg font-tajawal">
+                    خدمات برمجية مصممة خصيصاً لمساعدتك على أتمتة أعمالك وتطوير حضورك الرقمي
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="glass-card p-8 rounded-2xl flex flex-col justify-between border-t-2 border-t-telegramBlue hover:scale-105 transition-all">
+                    <div>
+                        <div class="w-16 h-16 rounded-2xl bg-telegramBlue/10 border border-telegramBlue/30 flex items-center justify-center text-telegramBlue text-3xl mb-6">
+                            <i class="fa-brands fa-telegram"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">برمجة بوتات تليجرام</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed font-tajawal mb-6">
+                            إنشاء بوتات تليجرام مخصصة للرد الآلي، أتمتة القنوات، استقبال الطلبات، والتفاعل الفوري مع المستخدمين.
+                        </p>
+                    </div>
+                    <a href="#contact" class="text-telegramBlue font-bold text-sm inline-flex items-center gap-2 hover:gap-3 transition-all">
+                        <span>طلب الخدمة</span>
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </a>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="glass-card p-8 rounded-2xl flex flex-col justify-between border-t-2 border-t-cyanNeon hover:scale-105 transition-all">
+                    <div>
+                        <div class="w-16 h-16 rounded-2xl bg-cyanNeon/10 border border-cyanNeon/30 flex items-center justify-center text-cyanNeon text-3xl mb-6">
+                            <i class="fa-solid fa-desktop"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">تصميم المواقع الإلكترونية</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed font-tajawal mb-6">
+                            بناء وتصميم صفحات شخصية ومواقع إلكترونية سريعة وجذابة تتوافق مع مختلف أجهزة الموبايل والحاسوب (HTML, CSS, JS).
+                        </p>
+                    </div>
+                    <a href="#contact" class="text-cyanNeon font-bold text-sm inline-flex items-center gap-2 hover:gap-3 transition-all">
+                        <span>طلب الخدمة</span>
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </a>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="glass-card p-8 rounded-2xl flex flex-col justify-between border-t-2 border-t-amberGold hover:scale-105 transition-all">
+                    <div>
+                        <div class="w-16 h-16 rounded-2xl bg-amberGold/10 border border-amberGold/30 flex items-center justify-center text-amber-400 text-3xl mb-6">
+                            <i class="fa-solid fa-gears"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">حلول وأتمتة رقمية</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed font-tajawal mb-6">
+                            صياغة وحلول برمجية ذكية لتسريع الاستجابة وتنظيم الأنشطة الرقمية بسهولة واحترافية.
+                        </p>
+                    </div>
+                    <a href="#contact" class="text-amber-400 font-bold text-sm inline-flex items-center gap-2 hover:gap-3 transition-all">
+                        <span>طلب الخدمة</span>
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-20 bg-slate-900/40 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl sm:text-4xl font-extrabold mb-4">تواصل <span class="gradient-text">معي</span></h2>
+                <div class="w-24 h-1.5 bg-gradient-to-r from-cyanNeon via-purpleNeon to-amberGold mx-auto rounded-full mb-6"></div>
+                <p class="text-gray-300 text-lg font-tajawal">
+                    يمكنك التواصل معي مباشرة لمناقشة مشروعك القادم أو لأي استفسار برمجي
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                
+                <!-- Social Channels -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="glass-card p-8 rounded-2xl space-y-6">
+                        <h3 class="text-2xl font-bold text-white border-b border-slate-800 pb-4">وسائل التواصل المباشر</h3>
+                        
+                        <!-- Instagram Contact Card -->
+                        <a href="https://www.instagram.com/25ff99?xtok=eHNleHNhNHFyaWoy" target="_blank" rel="noopener noreferrer" class="p-4 rounded-xl bg-gradient-to-r from-pink-600/20 via-red-600/20 to-yellow-600/20 border border-pink-500/40 flex items-center justify-between group hover:scale-102 transition-all">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-pink-500 to-yellow-500 flex items-center justify-center text-white text-2xl shadow-md">
+                                    <i class="fa-brands fa-instagram"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-pink-300 block font-semibold">حساب إنستغرام</span>
+                                    <span class="font-extrabold text-white dir-ltr">@25ff99</span>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-pink-400 group-hover:translate-x-[-4px] transition-transform"></i>
+                        </a>
+
+                        <!-- Telegram Contact Status -->
+                        <div class="flex items-center gap-4 text-gray-300 p-4 rounded-xl bg-slate-800/40">
+                            <div class="w-12 h-12 rounded-xl bg-telegramBlue/20 flex items-center justify-center text-telegramBlue text-2xl">
+                                <i class="fa-brands fa-telegram"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs text-gray-400 block">برمجة بوتات تليجرام</span>
+                                <span class="font-bold text-white text-sm">جاهز لاستلام المشاريع والطلبات</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Message Form -->
+                <div class="lg:col-span-7 glass-card p-8 rounded-2xl">
+                    <form onsubmit="event.preventDefault(); handleFormSubmit();" class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-300 mb-2">الاسم الكريم</label>
+                                <input type="text" id="senderName" required class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-cyanNeon transition-colors" placeholder="اكتب اسمك هنا">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-300 mb-2">نوع الخدمة المطلوب</label>
+                                <select id="serviceType" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-cyanNeon transition-colors">
+                                    <option value="تليجرام">برمجة بوت تليجرام</option>
+                                    <option value="موقع">تصميم موقع إلكتروني</option>
+                                    <option value="استشارة">استشارة برمجية</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-300 mb-2">تفاصيل الرسالة أو المشروع</label>
+                            <textarea id="senderMsg" rows="4" required class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-cyanNeon transition-colors" placeholder="اشرح تفاصيل المشروع أو الخدمة المطلوبة..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-4 rounded-xl gradient-blue-purple text-white font-black text-lg hover:opacity-95 shadow-lg shadow-cyan-500/20 transition-all flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>إرسال الطلب</span>
+                        </button>
+                    </form>
+
+                    <!-- Submission Feedback Message -->
+                    <div id="form-feedback" class="hidden mt-6 p-4 rounded-xl bg-cyanNeon/10 border border-cyanNeon/40 text-cyanNeon text-center font-bold">
+                        شكراً لتواصلك يا <span id="userNameDisplay"></span>! تم إرسال رسالتك وسأقوم بالرد عليك قريباً.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-10 border-t border-slate-800/80 text-center text-gray-400 text-sm">
+        <div class="max-w-7xl mx-auto px-4 space-y-4">
+            <div class="flex justify-center items-center gap-6 text-xl">
+                <a href="https://www.instagram.com/25ff99?xtok=eHNleHNhNHFyaWoy" target="_blank" class="hover:text-pink-400 transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#hero" class="hover:text-cyanNeon transition-colors"><i class="fa-brands fa-telegram"></i></a>
+            </div>
+            <p class="font-tajawal">جميع الحقوق محفوظة &copy; 2026 - <span class="gradient-text font-bold">عبد الرحمن وليد هاشم</span></p>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle Mobile Menu Navigation
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Form Submit Handler
+        function handleFormSubmit() {
+            const name = document.getElementById('senderName').value;
+            const userDisplay = document.getElementById('userNameDisplay');
+            const feedback = document.getElementById('form-feedback');
+
+            userDisplay.textContent = name;
+            feedback.classList.remove('hidden');
+
+            setTimeout(() => {
+                feedback.classList.add('hidden');
+            }, 6000);
+        }
+
+        // Navbar Scroll Background Transition
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 40) {
+                navbar.classList.add('shadow-2xl', 'bg-slate-950/90');
+            } else {
+                navbar.classList.remove('shadow-2xl', 'bg-slate-950/90');
+            }
+        });
+    </script>
 </body>
 </html>
